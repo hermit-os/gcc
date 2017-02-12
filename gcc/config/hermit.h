@@ -18,6 +18,13 @@
 /* Switch into a generic section.  */
 #define TARGET_ASM_NAMED_SECTION  default_elf_asm_named_section
 
+/* The svr4 ABI for the i386 says that records and unions are returned
+ * in memory.  In the 64bit compilation we will turn this flag off in
+ * ix86_option_override_internal, as we never do pcc_struct_return
+ * scheme on this target.  */
+#undef DEFAULT_PCC_STRUCT_RETURN
+#define DEFAULT_PCC_STRUCT_RETURN 1
+
 #undef TARGET_TLS_DIRECT_SEG_REFS_DEFAULT
 #define TARGET_TLS_DIRECT_SEG_REFS_DEFAULT MASK_TLS_DIRECT_SEG_REFS
 
