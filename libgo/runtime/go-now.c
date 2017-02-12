@@ -13,6 +13,15 @@
 struct time_now_ret
 now()
 {
+#ifdef __hermit__
+  struct timeval tv;
+  struct time_now_ret ret;
+
+  gettimeofday (&tv, NULL);
+  ret.sec = tv.tv_sec;
+  ret.nsec = tv.tv_usec * 1000;
+  return ret;
+#else
   struct timespec ts;
   struct time_now_ret ret;
 
@@ -20,4 +29,5 @@ now()
   ret.sec = ts.tv_sec;
   ret.nsec = ts.tv_nsec;
   return ret;
+#endif
 }

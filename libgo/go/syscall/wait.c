@@ -45,7 +45,12 @@ extern _Bool Continued (uint32_t *w)
 _Bool
 Continued (uint32_t *w)
 {
+#ifdef __hermit__
+  USED(w);
+  return 1;
+#else
   return WIFCONTINUED (*w) != 0;
+#endif
 }
 
 extern _Bool CoreDump (uint32_t *w)
@@ -54,7 +59,12 @@ extern _Bool CoreDump (uint32_t *w)
 _Bool
 CoreDump (uint32_t *w)
 {
+#ifdef __hermit__
+  USED(w);
+  return 1;
+#else
   return WCOREDUMP (*w) != 0;
+#endif
 }
 
 extern int ExitStatus (uint32_t *w)

@@ -144,9 +144,15 @@ SigTab runtime_sigtab[] = {
 /* Handle a signal, for cases where we don't panic.  We can split the
    stack here.  */
 
+#ifdef __hermit__
+void
+runtime_sighandler (int sig, Siginfo *info  __attribute__ ((unused)),
+		    void *context __attribute__ ((unused)), G *gp)
+#else
 void
 runtime_sighandler (int sig, Siginfo *info,
 		    void *context __attribute__ ((unused)), G *gp)
+#endif
 {
   M *m;
   int i;
