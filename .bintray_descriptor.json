@@ -1,6 +1,6 @@
 {
     "package": {
-        "name": "gcc-hermit",
+        "name": "gcc-hermit-bootstrap",
 	"repo": "hermitcore",
         "subject": "rwth-os",
         "website_url": "http://www.hermitcore.org",
@@ -20,7 +20,7 @@
 
     "files":
     [{
-      "includePattern": "../(gcc-hermit[^/]*deb$)", "uploadPattern": "$1",
+      "includePattern": "../(gcc-hermit-bootstrap[^/]*deb$)", "uploadPattern": "$1",
       "matrixParams": {
         "deb_distribution": "vivid",
         "deb_component": "main",
