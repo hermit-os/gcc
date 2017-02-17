@@ -10,6 +10,10 @@ before_install:
 - sudo apt-get install -y gcc g++ nasm flex dejagnu texinfo libmpfr-dev libmpc-dev libgmp-dev libisl-dev packaging-dev
 
 script:
+- wget ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2 -O isl-0.15.tar.bz2
+- tar jxf isl-0.15.tar.bz2
+- mv isl-0.15 isl
+- rm isl-0.15.tar.bz2
 - cd ..
 - mv gcc gcc-6.3.0
 - tar czf gcc_6.3.0.orig.tar.gz gcc-6.3.0 --exclude=.git
