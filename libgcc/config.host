@@ -332,7 +332,7 @@ x86_64-*-hermit*)
 	extra_parts="$extra_parts crtprec32.o crtprec64.o crtprec80.o crtfastmath.o"
 	tmake_file="$tmake_file i386/t-crtpc i386/t-crtstuff t-tls i386/t-linux"
 	;;
-aarch64*-*-elf | aarch64*-*-rtems*)
+aarch64*-*-elf | aarch64*-*-rtems* | aarch64*-*-hermit)
 	extra_parts="$extra_parts crtbegin.o crtend.o crti.o crtn.o"
 	extra_parts="$extra_parts crtfastmath.o"
 	tmake_file="${tmake_file} ${cpu_type}/t-aarch64"
