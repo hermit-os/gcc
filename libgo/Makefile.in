@@ -220,10 +220,19 @@ am__DEPENDENCIES_4 = bufio.lo bytes.lo bytes/index.lo crypto.lo \
 	sync/atomic_c.lo text/scanner.lo text/tabwriter.lo \
 	text/template.lo text/template/parse.lo testing/iotest.lo \
 	testing/quick.lo unicode/utf16.lo unicode/utf8.lo
-am__DEPENDENCIES_5 = $(am__DEPENDENCIES_4) \
-	../libbacktrace/libbacktrace.la $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_2) \
-	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_2)
+@LIBGO_IS_HERMIT_FALSE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_4) \
+@LIBGO_IS_HERMIT_FALSE@	../libbacktrace/libbacktrace.la \
+@LIBGO_IS_HERMIT_FALSE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_FALSE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_FALSE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_FALSE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_FALSE@	$(am__DEPENDENCIES_2)
+@LIBGO_IS_HERMIT_TRUE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_4) \
+@LIBGO_IS_HERMIT_TRUE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_TRUE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_TRUE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_TRUE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_TRUE@	$(am__DEPENDENCIES_2)
 libgo_llgo_la_DEPENDENCIES = $(am__DEPENDENCIES_5)
 @LIBGO_IS_LINUX_FALSE@am__objects_4 = lock_sema.lo thread-sema.lo
 @LIBGO_IS_LINUX_TRUE@am__objects_4 = lock_futex.lo thread-linux.lo
@@ -2372,9 +2381,13 @@ libgo_go_objs = \
 libgo_ldflags = \
 	-version-info $(libtool_VERSION) $(PTHREAD_CFLAGS) $(AM_LDFLAGS)
 
-libgo_libadd = \
-	$(libgo_go_objs) ../libbacktrace/libbacktrace.la \
-	$(LIBATOMIC) $(LIBFFI) $(PTHREAD_LIBS) $(MATH_LIBS) $(NET_LIBS)
+@LIBGO_IS_HERMIT_FALSE@libgo_libadd = \
+@LIBGO_IS_HERMIT_FALSE@	$(libgo_go_objs) ../libbacktrace/libbacktrace.la \
+@LIBGO_IS_HERMIT_FALSE@	$(LIBATOMIC) $(LIBFFI) $(PTHREAD_LIBS) $(MATH_LIBS) $(NET_LIBS)
+
+@LIBGO_IS_HERMIT_TRUE@libgo_libadd = \
+@LIBGO_IS_HERMIT_TRUE@	       $(libgo_go_objs) \
+@LIBGO_IS_HERMIT_TRUE@	       $(LIBATOMIC) $(LIBFFI) $(PTHREAD_LIBS) $(MATH_LIBS) $(NET_LIBS)
 
 libgo_la_SOURCES = $(runtime_files)
 libgo_la_LDFLAGS = $(libgo_ldflags)
@@ -4854,6 +4867,7 @@ s-syscall_arch: Makefile
 	$(SHELL) $(srcdir)/mvifdiff.sh syscall_arch.go.tmp syscall_arch.go
 	$(STAMP) $@
 
+# TODO: sed commands are bad hacks to remove wrong data types
 sysinfo.go: s-sysinfo; @true
 s-sysinfo: $(srcdir)/mksysinfo.sh config.h
 	CC="$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(OSCFLAGS) -O" $(SHELL) $(srcdir)/mksysinfo.sh

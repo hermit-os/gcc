@@ -2494,9 +2494,15 @@ libgo_go_objs = \
 libgo_ldflags = \
 	-version-info $(libtool_VERSION) $(PTHREAD_CFLAGS) $(AM_LDFLAGS)
 
+if LIBGO_IS_HERMIT
+libgo_libadd = \
+	       $(libgo_go_objs) \
+	       $(LIBATOMIC) $(LIBFFI) $(PTHREAD_LIBS) $(MATH_LIBS) $(NET_LIBS)
+else
 libgo_libadd = \
 	$(libgo_go_objs) ../libbacktrace/libbacktrace.la \
 	$(LIBATOMIC) $(LIBFFI) $(PTHREAD_LIBS) $(MATH_LIBS) $(NET_LIBS)
+endif
 
 libgo_la_SOURCES = $(runtime_files)
 libgo_la_LDFLAGS = $(libgo_ldflags)

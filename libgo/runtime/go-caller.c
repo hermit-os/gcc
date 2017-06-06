@@ -31,6 +31,7 @@ struct caller
    more than once, due to inlined functions, we use the last call, as
    that is usually the most useful one.  */
 
+#ifndef __hermit__
 static int
 callback (void *data, uintptr_t pc __attribute__ ((unused)),
 	  const char *filename, int lineno, const char *function)
@@ -68,12 +69,14 @@ static void *back_state;
 /* A lock to control creating back_state.  */
 
 static Lock back_state_lock;
+#endif
 
 /* Fetch back_state, creating it if necessary.  */
 
 struct backtrace_state *
 __go_get_backtrace_state ()
 {
+#ifndef __hermit__
   runtime_lock (&back_state_lock);
   if (back_state == NULL)
     {
@@ -100,6 +103,9 @@ __go_get_backtrace_state ()
     }
   runtime_unlock (&back_state_lock);
   return back_state;
+#else
+  return NULL;
+#endif
 }
 
 /* Return function/file/line information for PC.  */
@@ -107,6 +113,7 @@ __go_get_backtrace_state ()
 _Bool
 __go_file_line (uintptr pc, String *fn, String *file, intgo *line)
 {
+#ifndef __hermit__
   struct caller c;
 
   runtime_memclr (&c, sizeof c);
@@ -116,10 +123,18 @@ __go_file_line (uintptr pc, String *fn, String *file, intgo *line)
   *file = c.file;
   *line = c.line;
   return c.file.len > 0;
+#else
+  USED(pc);
+  USED(fn);
+  USED(file);
+  USED(line);
+  return 0;
+#endif
 }
 
 /* Collect symbol information.  */
 
+#ifndef __hermit__
 static void
 syminfo_callback (void *data, uintptr_t pc __attribute__ ((unused)),
 		  const char *symname __attribute__ ((unused)),
@@ -140,6 +155,7 @@ __go_symbol_value (uintptr_t pc, uintptr_t *val)
 		     error_callback, val);
   return *val != 0;
 }
+#endif
 
 /* The values returned by runtime.Caller.  */
 
@@ -160,6 +176,13 @@ Func *FuncForPC (uintptr_t) __asm__ (GOSYM_PREFIX "runtime.FuncForPC");
 struct caller_ret
 Caller (int skip)
 {
+#ifdef __hermit__
+  struct caller_ret ret;
+
+  USED(skip);
+  runtime_memclr (&ret, sizeof ret);
+  return ret;
+#else
   struct caller_ret ret;
   Location loc;
   int32 n;
@@ -173,6 +196,7 @@ Caller (int skip)
   ret.line = loc.lineno;
   ret.ok = 1;
   return ret;
+#endif
 }
 
 /* Implement runtime.FuncForPC.  */
@@ -180,6 +204,10 @@ Caller (int skip)
 Func *
 FuncForPC (uintptr_t pc)
 {
+#if __hermit__
+  USED(pc);
+  return NULL;
+#else
   Func *ret;
   String fn;
   String file;
@@ -198,6 +226,7 @@ FuncForPC (uintptr_t pc)
     ret->entry = 0;
 
   return ret;
+#endif
 }
 
 /* Look up the file and line information for a PC within a
