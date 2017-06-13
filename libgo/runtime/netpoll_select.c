@@ -307,11 +307,7 @@ runtime_netpoll(bool block)
 			mode = 'r' + 'w';
 			--c;
 		}
-#ifdef __hermit__
-		if((i|LWIP_FD_BIT) == rdwake && mode != 0) {
-#else
-		if(i == rdwake && mode != 0) {
-#endif
+		if(i == GETFD(rdwake) && mode != 0) {
 			while(read(rdwake, &b, sizeof b) > 0)
 				;
 			continue;
@@ -329,7 +325,7 @@ runtime_netpoll(bool block)
 #ifdef __hermit__
 	// on a tickless system (e.g. HermitCore), we have to reschedule
 	// to consume the message
-	reschedule();
+	//reschedule();
 #endif
 	if(block && gp == nil)
 		goto retry;
