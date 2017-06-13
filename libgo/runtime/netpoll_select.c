@@ -307,7 +307,11 @@ runtime_netpoll(bool block)
 			mode = 'r' + 'w';
 			--c;
 		}
+#ifdef __hermit__
+		if((i|LWIP_FD_BIT) == rdwake && mode != 0) {
+#else
 		if(i == rdwake && mode != 0) {
+#endif
 			while(read(rdwake, &b, sizeof b) > 0)
 				;
 			continue;
