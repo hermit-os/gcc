@@ -942,6 +942,7 @@ aarch64*-*-elf | aarch64*-*-rtems* | aarch64*-*-hermit)
 		;;
 	aarch64-*-hermit*)
 		tm_file="${tm_file} hermit.h"
+		extra_options="${extra_options} hermit.opt"
 		;;
 	esac
 	case $target in
