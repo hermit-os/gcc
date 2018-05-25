@@ -1,30 +1,33 @@
 sudo: required
-dist: trusty
 git:
+  depth: 3
   submodules: false
-language: c
-compiler: gcc
-
+env:
+  matrix:
+  - OS_TYPE=debian OS_VERSION=8 OS_NAME=jessie
+  - OS_TYPE=debian OS_VERSION=9 OS_NAME=stretch
+  #- OS_TYPE=centos OS_VERSION=latest OS_NAME=centos7
+  - OS_TYPE=ubuntu OS_VERSION=16.04 OS_NAME=xenial
+  - OS_TYPE=ubuntu OS_VERSION=18.04 OS_NAME=bionic
+services:
+- docker
+addons:
+  apt:
+    update: true
 before_install:
 - sudo apt-get -qq update
-- sudo apt-get install -y gcc g++ nasm flex dejagnu texinfo libmpfr-dev libmpc-dev libgmp-dev libisl-dev packaging-dev
-
+- sudo docker pull ${OS_TYPE}:${OS_VERSION}
 script:
-- wget ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2 -O isl-0.15.tar.bz2
-- tar jxf isl-0.15.tar.bz2
-- mv isl-0.15 isl
-- rm isl-0.15.tar.bz2
-- cd ..
-- mv gcc gcc-6.3.0
-- tar czf gcc_6.3.0.orig.tar.gz gcc-6.3.0 --exclude=.git
-- cd gcc-6.3.0
-- time debuild -us -uc -j2
-
+- docker run -ti -v ${TRAVIS_BUILD_DIR}/..:/work:rw ${OS_TYPE}:${OS_VERSION} /bin/bash -c "cd /work/binutils; ./tests.sh ${OS_TYPE} ${OS_VERSION}"
 deploy:
-  on: bootstrap
-  provider: bintray
-  file: .bintray_descriptor.json
-  user:
-   secure: KtZRrzFiR1AM2nvZzt+yyypIvmeAH7Tr2otwDyveHafzBV/rfJ1fsSuw+hP8eaG4rzxlh3I//z/62xKUHmIZWTO9FjOoMnmSUyoeKoGVjIfSYSMMpt5hRFTA0HI8+O/kk9jvhdntRisHMz2V5KC/iX9phscxTMoQUfanGM9Eoi7RHJG/8dZG7QfrTtTExekOjDeGrqrjuj9gf8tlOxzca99AC7kb4QycBm4fAXm8XKkgGnhDaJPRkcEeXs9JUvCgUb67pegTyBSdeP3asPATJXDJ+WwkT+kKMBh9l87E2+3vCKmfh6eK1e2f8Itx2IZeTWHcwbn7Pb3700V60fQyMy/2UyWTnBr46yfZg+s/pr2YURKg69E9n1lMy17L4JaK4viEqReu2ARMS3TBhNAVoaW2MNlna+gvVKHVR+/1iU/cxmvxkBd5uOZ2p/30OYSXxYO6hvTiU/CAtqvKTYk+CA1BL7ZiuGsoc80mFmfmj8Gh7dGShk8pAGYSKz55y/QpVf4bu8utAGDHEyWfopEvdJxOo5kv4MX9KCHd3VsGhzJzrRMCUmfAFWB5OWR2bHTAUJW0amFHSSqVYy/xaqhRBXdxIOeXQmysAn7uilVl8UILdmqdZrx4Du/nEWkVUaGQYJ+tLr0ysHmKFuI2mqomwKjcjjZHyl9md/E1PHhz4xk=
-  key:
-   secure: jz18aBR118iAlHRaOJn5iRvbf7pnyd2MOLdihHvTeE/eO/RIysmGWBSquW1jzjpABE/5epmawuImPg2pNgTyog9S2Idv4r0nQKTfGQ355PsMSxFrO1vSpy60g6r1oaEMOVWgln7cRhBwgCS3rSwrJnhzGJiKQwkDnep6PJys2thoHN9ZL6RMXNZHqgYFjQXgRGoK8NS3qfd1tW+H5T8fXq9r9rNeD78ncPbixxHo9k8xm+Y7krNHIJTZjyY0szg1ZGguW4FeI8oCb2mnn+CVWzJInf1Ojlu7SXBkEm6c9U86ZpCgQuSXlkkBuEC+TOsHXBmBtE94A/vVt8FI9Nm1ijlGo+sMhTEqtouLg/Y9GKlDjDCalaxQQzVD4vhGNnOaTwk9YZUxHwwSe3wpIFZdlK+ZfLcvMEcQeijlY0gvlOfXqlqSzVttJhMCdcvGmZGLGRvA5xfoAGgvj2F0k4UXzRB32+COJEO58DTms03mGCUhXZ9JMrAd48wBy5T5GWgnxWNRhkLQlSIOGaSdspKCMiVmyNBvmrxmweFUNrbrahP5Q2H7Zmmf1thjW9dE4cP9RWkruLMGu0dGbxEKGJOKTp3eG2SZ86Z1iY50mowfgBNQUg1wu/MBfL/ZVvsya3UNBddZAC37orOh9dcD5EYfeJL5hmspBnyVtJM7pVljKYg=
+  provider: packagecloud
+  on:
+    branch: bootstrap
+    condition: -n "${PACKAGECLOUD_TOKEN}"
+  skip_cleanup: true
+  dist: "${OS_TYPE}/${OS_NAME}"
+  repository: "main"
+  username: "hermitcore"
+  token: "${PACKAGECLOUD_TOKEN}"
+  package_glob: build/*.deb
+  force: true
