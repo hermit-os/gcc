@@ -44,10 +44,15 @@ tar jxf isl-0.15.tar.bz2
 mv isl-0.15 isl
 rm isl-0.15.tar.bz2
 
+# don't run fixincludes, this is accidentally done by dh and kinda broken		
+#  reference: https://gcc.gnu.org/ml/gcc/2013-04/msg00171.html		
+#  reference: https://ewontfix.com/12/		
+sed -i 's/STMP_FIXINC=stmp-fixinc/STMP_FIXINC=/g' gcc/configure
+
 mkdir -p build
 cd build
 ../configure --target=x86_64-hermit --prefix=/opt/hermit --without-headers --with-isl --disable-multilib --without-libatomic --with-tune=generic --enable-languages=c,c++,lto --disable-nls --disable-shared --disable-libssp --enable-threads=posix --disable-libgomp --enable-tls --enable-lto --disable-symvers
 make -j2
-checkinstall -D -y --exclude=build --pkggroup=main --maintainer=stefan@eonerc.rwth-aachen.de --pkgsource=https://hermitcore.org --pkgname=gcc-hermit-bootstrap --pkgversion=2.30.51 --pkglicense=GPL2 make install
+checkinstall -D -y --exclude=build --pkggroup=main --maintainer=stefan@eonerc.rwth-aachen.de --pkgsource=https://hermitcore.org --pkgname=gcc-hermit-bootstrap --pkgversion=2.30.51 --pkglicense=GPL2 make install-gcc
 
 fi
