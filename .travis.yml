@@ -30,4 +30,4 @@ deploy:
   username: "hermitcore"
   token: "${PACKAGECLOUD_TOKEN}"
   package_glob: build/*.deb
-  force: true
+  #force: true
