@@ -20,7 +20,7 @@ deploy:
   provider: bintray
   on:
     branch: hermit
-    condition: "$OS_NAME = stretch"
+    condition: $OS_NAME = stretch
   skip_cleanup: true
   file: ".bintray_descriptor.json"
   user:
