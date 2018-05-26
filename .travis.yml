@@ -4,10 +4,7 @@ git:
   submodules: false
 env:
   matrix:
-  - OS_TYPE=debian OS_VERSION=8 OS_NAME=jessie
   - OS_TYPE=debian OS_VERSION=9 OS_NAME=stretch
-  #- OS_TYPE=centos OS_VERSION=latest OS_NAME=centos7
-  - OS_TYPE=ubuntu OS_VERSION=16.04 OS_NAME=xenial
   - OS_TYPE=ubuntu OS_VERSION=18.04 OS_NAME=bionic
 services:
 - docker
@@ -18,16 +15,16 @@ before_install:
 - sudo apt-get -qq update
 - sudo docker pull ${OS_TYPE}:${OS_VERSION}
 script:
-- docker run -ti -v ${TRAVIS_BUILD_DIR}:/work:rw ${OS_TYPE}:${OS_VERSION} /bin/bash -c "cd /work; ./tests.sh ${OS_TYPE} ${OS_NAME}"
+- docker run -ti -v ${TRAVIS_BUILD_DIR}:/work:rw ${OS_TYPE}:${OS_VERSION} /bin/bash
+  -c "cd /work; ./tests.sh ${OS_TYPE} ${OS_NAME}"
 deploy:
-  provider: packagecloud
+  provider: bintray
   on:
-    branch: bootstrap
-    condition: -n "${PACKAGECLOUD_TOKEN}"
+    branch: hermit
+    condition: "$OS_NAME = stretch"
   skip_cleanup: true
-  dist: "${OS_TYPE}/${OS_NAME}"
-  repository: "stable"
-  username: "hermitcore"
-  token: "${PACKAGECLOUD_TOKEN}"
-  package_glob: build/*.deb
-  force: true
+  file: ".bintray_descriptor.json"
+  user:
+    secure: kn390CGJhr2zd7tlXOpQXXfDnCVIu6Jbb99KsegS3AzleQQGt5NLMLClqash4sYQirV8SpK2x1dTXlUD72q030Cewa6wAa34/OLZHWRGO+1TRAVili3zskq9IWSZR7OrMm9bRjF50YZAg0sL6vN2h8O7kVAX2SYA82ui2kgnoPkdpozVRheQaGmbtX00mqobFb75bpkY/9fLHQoReoAFaF9lPNi6qT2tk9+CsB/rJNM1+DH+lgRoU5NGLnSnPTzIAeWMa7C2Jm2x1ZPWGj7AHYZqHVGIRwxg+IBQy06cSQTVYjUAew+Y7bluXhJwzWdUWgcrkD7oo4JLSAsQhhlnstfrvdFOGt/RlsWj2IQWou3puds1kMSDznT3w4adKpQ0kiyr0kPCQH16MY37Yjv5sf4kisxZDKMHZOg4zvpZUHH0QuOEt4Wjptt8HBtHw24wFFHjppmW1M++XFMBNmob52wqgq/eAUrL8H3oP3ogwDs8guUdoLFHiZYZlMjW9XoH0dTOGLwCC2ph3jr1YxZmZ6a4PCWGY5rQJMRBQC+CqcMtQo55EbeBdQ/DOF3KqjXLa/Oszzode2QslDqIvlTBbT95AgubBn+6uM4Ab2OW7xs1Qbxa4rH2c9Af604DhE/4bWBebsdP6OkQRII6rR1Qecp0d/0zJQluc0YjoiIG7J4=
+  key:
+    secure: mhKbDbnsqrxmrAX31SiWHnocWjSX5RAAaobvIG6G8Oj3WPrFBBZLxDZ0nQmNL2XecpxHAfNA4BhFIQs+IyBHwkeeq7A5aRD4SgGq/IRaV5fD/nLaYmxpCc5X3vM9I4dRe2R2b7Bxx9y63LKD0g81aS5UPY/pSl6CkpT2ziXZhVg4+94Ydh36b0zeIHc+SfD83J+GQUqh/tjxx3/eZLL1DAuKmOwd8PzRpzuMN5qTCbzxecgd8+myQE1CUmo4hAkKDTaRjZDxxz63umW7isBS8XRkvRi9VLa8D7ATGQyycvlfXkRM/L0a/lgmEnUT6Vbdi0E0UcVc6Cr3kHVAjXs3OSNBf6Z1k9F99XK5qcM3MZFMq0tBfA7cIssyQe1sRZvGYawsCnIFNXgDtToS43N3/DC1Ow9wT7SNYG+Xjs6bA8KaXa2aSQfW4byOWnV/BucO4+1+T72Lsd06hEh/+iQOTHuh4ppwmZyoetYKA3GbnfqIebsVwiquiQxw3nptRAAEtN4aTPJNyxsXocM/WPzAjCPr7mxcqqjTOBivD5oAbRfBuQecZJpcF/xxfEiUuK1XWdlMkHU5UXUBUrtU4o3kR9WU7Agrf3xk7P6JgGvuOJajjyXF2z/KQuZNAO0NuNSHEhQ5P4hGbP7ufSO2C7CVnRAL+G0qaLRLG8mGv0SjaCs=
