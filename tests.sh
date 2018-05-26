@@ -34,7 +34,7 @@ export DEBIAN_FRONTEND="noninteractive"
 apt-get -qq update
 apt-get install -y wget curl gnupg checkinstall gawk dialog apt-utils flex bison binutils texinfo gcc g++ libmpfr-dev libmpc-dev libgmp-dev libisl-dev packaging-dev build-essential libtool autotools-dev autoconf pkg-config apt-transport-https
 
-echo "deb [trusted=yes] https://packagecloud.io/hermitcore/ubuntu vivid main" | tee -a /etc/apt/sources.list 
+echo "deb [trusted=yes] https://dl.bintray.com/hermitcore/ubuntu vivid main" | tee -a /etc/apt/sources.list 
 apt-get update
 apt-get install -y --allow-unauthenticated binutils-hermit
 export PATH=/opt/hermit/bin:$PATH
