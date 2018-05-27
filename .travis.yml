@@ -1,41 +1,31 @@
 sudo: required
-dist: trusty
 git:
+  depth: 3
   submodules: false
-language: c
-compiler: gcc
-
-before_install:
-- echo "deb https://dl.bintray.com/rwth-os/hermitcore vivid main" | sudo tee -a /etc/apt/sources.list
-- sudo apt-get -qq update
-- sudo apt-get install -y gcc g++ nasm flex dejagnu texinfo libmpfr-dev libmpc-dev libgmp-dev libisl-dev packaging-dev
-- sudo apt-get install --force-yes binutils-hermit newlib-hermit pthread-embedded-hermit libhermit
-
-script:
-- wget ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2 -O isl-0.15.tar.bz2
-- tar jxf isl-0.15.tar.bz2
-- mv isl-0.15 isl
-- rm isl-0.15.tar.bz2
-- cd ..
-- mv gcc gcc-6.3.0
-- tar czf gcc_6.3.0.orig.tar.gz gcc-6.3.0 --exclude=.git
-- cd gcc-6.3.0
-- time debuild -e CFLAGS_FOR_TARGET -e GOFLAGS_FOR_TARGET -e FCFLAGS_FOR_TARGET -e FFLAGS_FOR_TARGET -e CXXFLAGS_FOR_TARGET -e PATH -us -uc -j2
-
-deploy:
-  on: production
-  provider: bintray
-  file: .bintray_descriptor.json
-  user:
-   secure: KtZRrzFiR1AM2nvZzt+yyypIvmeAH7Tr2otwDyveHafzBV/rfJ1fsSuw+hP8eaG4rzxlh3I//z/62xKUHmIZWTO9FjOoMnmSUyoeKoGVjIfSYSMMpt5hRFTA0HI8+O/kk9jvhdntRisHMz2V5KC/iX9phscxTMoQUfanGM9Eoi7RHJG/8dZG7QfrTtTExekOjDeGrqrjuj9gf8tlOxzca99AC7kb4QycBm4fAXm8XKkgGnhDaJPRkcEeXs9JUvCgUb67pegTyBSdeP3asPATJXDJ+WwkT+kKMBh9l87E2+3vCKmfh6eK1e2f8Itx2IZeTWHcwbn7Pb3700V60fQyMy/2UyWTnBr46yfZg+s/pr2YURKg69E9n1lMy17L4JaK4viEqReu2ARMS3TBhNAVoaW2MNlna+gvVKHVR+/1iU/cxmvxkBd5uOZ2p/30OYSXxYO6hvTiU/CAtqvKTYk+CA1BL7ZiuGsoc80mFmfmj8Gh7dGShk8pAGYSKz55y/QpVf4bu8utAGDHEyWfopEvdJxOo5kv4MX9KCHd3VsGhzJzrRMCUmfAFWB5OWR2bHTAUJW0amFHSSqVYy/xaqhRBXdxIOeXQmysAn7uilVl8UILdmqdZrx4Du/nEWkVUaGQYJ+tLr0ysHmKFuI2mqomwKjcjjZHyl9md/E1PHhz4xk=
-  key:
-   secure: jz18aBR118iAlHRaOJn5iRvbf7pnyd2MOLdihHvTeE/eO/RIysmGWBSquW1jzjpABE/5epmawuImPg2pNgTyog9S2Idv4r0nQKTfGQ355PsMSxFrO1vSpy60g6r1oaEMOVWgln7cRhBwgCS3rSwrJnhzGJiKQwkDnep6PJys2thoHN9ZL6RMXNZHqgYFjQXgRGoK8NS3qfd1tW+H5T8fXq9r9rNeD78ncPbixxHo9k8xm+Y7krNHIJTZjyY0szg1ZGguW4FeI8oCb2mnn+CVWzJInf1Ojlu7SXBkEm6c9U86ZpCgQuSXlkkBuEC+TOsHXBmBtE94A/vVt8FI9Nm1ijlGo+sMhTEqtouLg/Y9GKlDjDCalaxQQzVD4vhGNnOaTwk9YZUxHwwSe3wpIFZdlK+ZfLcvMEcQeijlY0gvlOfXqlqSzVttJhMCdcvGmZGLGRvA5xfoAGgvj2F0k4UXzRB32+COJEO58DTms03mGCUhXZ9JMrAd48wBy5T5GWgnxWNRhkLQlSIOGaSdspKCMiVmyNBvmrxmweFUNrbrahP5Q2H7Zmmf1thjW9dE4cP9RWkruLMGu0dGbxEKGJOKTp3eG2SZ86Z1iY50mowfgBNQUg1wu/MBfL/ZVvsya3UNBddZAC37orOh9dcD5EYfeJL5hmspBnyVtJM7pVljKYg=
-
 env:
-   global:
-     - PATH=$PATH:/opt/hermit/bin/
-     - CFLAGS_FOR_TARGET="-m64 -O2 -ftree-vectorize"
-     - GOFLAGS_FOR_TARGET"=-m64 -O2 -ftree-vectorize"
-     - FCFLAGS_FOR_TARGET"=-m64 -O2 -ftree-vectorize"
-     - FFLAGS_FOR_TARGET="-m64 -O2 -ftree-vectorize"
-     - CXXFLAGS_FOR_TARGET="-m64 -O2 -ftree-vectorize"
+  matrix:
+  - OS_TYPE=ubuntu OS_VERSION=18.04 OS_NAME=bionic
+services:
+- docker
+addons:
+  apt:
+    update: true
+before_install:
+- sudo apt-get -qq update
+- sudo docker pull ${OS_TYPE}:${OS_VERSION}
+script:
+- docker run -ti -v ${TRAVIS_BUILD_DIR}:/work:rw ${OS_TYPE}:${OS_VERSION} /bin/bash
+  -c "cd /work; ./tests.sh ${OS_TYPE} ${OS_NAME}"
+before_deploy:
+- cd ${TRAVIS_BUILD_DIR}
+- dpkg-deb -b tmp gcc-hermit_6.3.0-1_amd64.deb
+deploy:
+  provider: bintray
+  on:
+    branch: hermit
+  skip_cleanup: true
+  file: ".bintray_descriptor.json"
+  key:
+    secure: Kbd1C8BFu+91dAWe3ULwEoKu22vzP58S+1p3FqTY5Mp8rOq0a3N20WYaDklqgjjFxFHGrAv4aePBLjtuJlktZhd//pxuo9vb81uDhUMQXVQqD7LfeOUIKmYgcrTolvsOJmG653jZ4b6FIU5V39uXYPUApj4JO8aAXq5k6Cmjxik5MdqZmBxpWT2drEZf1ocMTjr3LVFpTEgeOX6smGK5Beq5ulEzZpiVBzOuP5Lw3f8J4NUHBwcV6u/7UyVRQ5GHcQz1e6n12eJjLMlgjhzU44Wg6eoAZezPdjACjamujAROPC1bOhk4nnZ+Vf+Z7tSxAKr4hNxI6VInPFBBSf7cxS1XbMaxofQe9p1uKF6yn1N8vCyFVA3rbcnALh4CIioCVwgXEEjoPmtKhctFmq98TGbfOmxJi0GmJrItPqM/3oqFYejdr5gdIvRiHlIJhxB3Zy3S0IW3gW9dnif2CD3qpj+/PMCV1/3er5p7ttZTqxpkEC4X0sGJwqx6UYbE4yeRCtzFRnnUDbjAZJMqo1dlTRGuRFfVr5tZB7klgmhPpAYh8dqhkw+RlWq8wkt5ftB8qAoiHT3DGQo0RLLYLKW8Apovk5ZPmAePRgsEJjZ8j0mLKfrlwzqBrk+pUj/UQNBu8nv6WExBOBBdHyNJje+bPO72RBXdqykJ/KYhb1uYxn4=
+  user:
+    secure: Bu7xvYfNePRPNhe4+0g1mBBenCoUatgSQ/cApODSmF/cLIlez8Lm+W1MF0WU1uGgT12qTCs+g7VKHPrpcW28nNCuEjdDHWMzcVPdjDVaSj9PsV677YiBs2cgsCiC4Pb95cDKQiOIPiuXY+bCxMVc2Dlu1ztMRej2UfWi9OJWv7dFhle+URXHpH6RiWVKrPNjeXlvIw0pczlxzW76V82C9ADcwGcnPa2rA6pblGpksIBejfd6rhRhcg2FNiBRQ+0YEmmHVgY3GZL/dtXrRTBAcz2cf0eMs+aLAv921lV8NnXIOBiotuQO+CYHU+C/Xd9BkurxHttkwQwgK8rP9e6gSTfVFf0Y2kIPYEnkbvLrQn2DAycMXAijJ0eeYYmXIIJSLqqDGkV8hiuaHyjWwN2GTFKUXkWdVirNMiWg7tg+QIvz1g+2XLD2Oo3n9BpDJ5YPDGQ9bRMc2ScredVtMFSkJ5oxuxxmg2LjUfVW97Gpu2lEoYhuKIF13OHO6OGFf2gOTgQ4HrQgFTI9ZBsLvgupZef8xHjbkny1XB8CG/HQqm+Gx7eeTOLgxVAWtuI9xN72oryQUdVbW9QdOVJdLLyV7gHy+em5tXa96Y/AwrPUPcuukiBdX6/EN6Vf50DEwU3msmoG4sqyez/K1ESP51CWhVUt6UKzspEa/Xhl4w+w9/Y=
