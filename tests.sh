@@ -55,4 +55,9 @@ cd build
 make -j2
 checkinstall -D -y --exclude=build --pkggroup=main --maintainer=stefan@eonerc.rwth-aachen.de --pkgsource=https://hermitcore.org --pkgname=gcc-hermit-bootstrap --pkgversion=6.3.0 --pkglicense=GPL2 make install-gcc
 
+cd ..
+mkdir -p tmp
+dpkg-deb -R build/gcc-hermit-bootstrap_6.3.0-1_amd64.deb tmp
+rm -f build/gcc-hermit-bootstrap_6.3.0-1_amd64.deb
+
 fi

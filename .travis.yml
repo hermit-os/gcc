@@ -13,19 +13,21 @@ addons:
     update: true
 before_install:
 - sudo apt-get -qq update
-- sudp apt-get install -y curl
+- sudo apt-get install -y curl
 - sudo docker pull ${OS_TYPE}:${OS_VERSION}
 script:
 - docker run -ti -v ${TRAVIS_BUILD_DIR}:/work:rw ${OS_TYPE}:${OS_VERSION} /bin/bash -c "cd /work; ./tests.sh ${OS_TYPE} ${OS_NAME}"
-- curl -X PUT -T binutils-hermit_2.30.51-1_amd64.deb -u$BINTRAY_USER:$BINTRAY_API_KEY https://api.bintray.com/content/hermitcore/ubuntu/binutils-hermit/2.30.51/binutils-hermit_2.30.51-1_amd64.deb;deb_distribution=vivid;deb_component=main;deb_architecture=amd64
-  #deploy:
-  #provider: bintray
-  #on:
-  #  branch: bootstrap
+before_deploy:
+- cd ${TRAVIS_BUILD_DIR}
+- dpkg-deb -b tmp binutils-hermit_2.30.51-1_amd64.deb
+deploy:
+  provider: bintray
+  on:
+    branch: bootstrap
     #condition: $OS_NAME = stretch
-    #skip_cleanup: true
-    #file: ".bintray_descriptor.json"
-    #key:
-    #secure: cVKoiMGHmabv2KV0bNrcfppR4dhtqrW5O/Ugx3P8QvERd03Asxm0/xzzZ2/Actzb97Q/3x2Y0KYeRXQ0rB6M+dVcJGscORL2agcMpKQk/uPww5MxDSShPfovhfj2WtDMis1SqvoTEmRUWZ0qhYl+Nb73kRO1wS6rMjxDO6dQa6o1p79wSLaAKhtv3jRKw1yRcCRZojMkCoPgEvqHIzm19eno1C16yF4WOZImi+PmT6cKYSdfWQG+DKwSNB1MZe6VWNQaJJYo1/RT7KpWS3VOVeoNUuG85uIKHYcbAdQ+J30TCwxG9QXKuQPoitnYS2YwMINhvEpSswNKcScZfYWAPeMhU6/UyAphHOQ/wRVfTRMeWaiy+frbWljlEHcC15za0qx+Bb64bu198AVhjZWz7PoFqWotNmEA1X0h2ysOFn4lGPh917sC15tR60ce+j+M4N9qd0KF9AWd4AV2S5GwA9jNOYGrNd7CBR5ERD+fJ0qEbqwS4c/7TpUKu+1ztmaqIrAyIW+Pb4xcHXtgJZY04fc+NZd9HnOCf4XCO1C+r87/SK+qJg/AvzA9Tz2pnMAwUjbfkgzTfOmMiSQUeri2BE+2Q/RNtM4LToqxf3p5JsffJ05I4t9rlCSHiOCf8XZU99DrXXx/9MGkxC2XlvTjOmQaB41bmY2KRdqfsEcENmU=
-    #user:
-    #secure: AHCZ9Jq3mrkfUaUg+5MpI91TJh5llrTDH3Els6LVRqK7hilTXtwktb4jjEppf8gPT30tn2VFGkZpkyRNRAoUeJaF8IO6xuOe4cDqt43xbOSUxP0mRSeT/FTtns0bi4ofzb/H3TUubCafuO8FWBGKQPCcs5k+dbI/OnG1POPm+/Mt931oQpN8jAUURs4nboMX/DW+FUiaP/OIFeYcWdtmBHv35J+Q1qT8MgP+yMOWlurat0bLHcb5DnWnGxJ0fvmb2repPwZNsAOHH/w31rSrlvA/Pa7E9PhQ8eLUXuO+/fzYKQA5QOkP9ITEsrMm9UZ+eaOkUtZTb9drJ25JeSlEJ0Q92t/MSRqKSIXGrCEfoVXDMCNTHfV8v4rf4iSZjW33HfRgHzLfqD/ZVK3IPDRTJopPEv6uR/r2SMTjv4U8xbt8uhi+NhH9i1zP/0VXj6spLB+jrCcrdt4TfEq7dXfbDv3ZSzLoK0tB8/KcOMhWdJRizkZ06g4i8l5xH3UrVCb+57gmo38Wo0n6bSHkM1ECcuq8Olo9RY5QTbJ0gMhDoyW/XyzVNP/uC7Gl4W6wYFoAFnOG9/0yvQyelFbdmqodVhFqt4IzvQc9BFJlO+ydNm7Kj5vFZVg6y0AKPpBOyVbaF4l0KFwuSMoVvvGrj8VvvUuBdnpmCxQE9QbAF0bGx7w=
+  skip_cleanup: true
+  file: ".bintray_descriptor.json"
+  key:
+    secure: cVKoiMGHmabv2KV0bNrcfppR4dhtqrW5O/Ugx3P8QvERd03Asxm0/xzzZ2/Actzb97Q/3x2Y0KYeRXQ0rB6M+dVcJGscORL2agcMpKQk/uPww5MxDSShPfovhfj2WtDMis1SqvoTEmRUWZ0qhYl+Nb73kRO1wS6rMjxDO6dQa6o1p79wSLaAKhtv3jRKw1yRcCRZojMkCoPgEvqHIzm19eno1C16yF4WOZImi+PmT6cKYSdfWQG+DKwSNB1MZe6VWNQaJJYo1/RT7KpWS3VOVeoNUuG85uIKHYcbAdQ+J30TCwxG9QXKuQPoitnYS2YwMINhvEpSswNKcScZfYWAPeMhU6/UyAphHOQ/wRVfTRMeWaiy+frbWljlEHcC15za0qx+Bb64bu198AVhjZWz7PoFqWotNmEA1X0h2ysOFn4lGPh917sC15tR60ce+j+M4N9qd0KF9AWd4AV2S5GwA9jNOYGrNd7CBR5ERD+fJ0qEbqwS4c/7TpUKu+1ztmaqIrAyIW+Pb4xcHXtgJZY04fc+NZd9HnOCf4XCO1C+r87/SK+qJg/AvzA9Tz2pnMAwUjbfkgzTfOmMiSQUeri2BE+2Q/RNtM4LToqxf3p5JsffJ05I4t9rlCSHiOCf8XZU99DrXXx/9MGkxC2XlvTjOmQaB41bmY2KRdqfsEcENmU=
+  user:
+    secure: AHCZ9Jq3mrkfUaUg+5MpI91TJh5llrTDH3Els6LVRqK7hilTXtwktb4jjEppf8gPT30tn2VFGkZpkyRNRAoUeJaF8IO6xuOe4cDqt43xbOSUxP0mRSeT/FTtns0bi4ofzb/H3TUubCafuO8FWBGKQPCcs5k+dbI/OnG1POPm+/Mt931oQpN8jAUURs4nboMX/DW+FUiaP/OIFeYcWdtmBHv35J+Q1qT8MgP+yMOWlurat0bLHcb5DnWnGxJ0fvmb2repPwZNsAOHH/w31rSrlvA/Pa7E9PhQ8eLUXuO+/fzYKQA5QOkP9ITEsrMm9UZ+eaOkUtZTb9drJ25JeSlEJ0Q92t/MSRqKSIXGrCEfoVXDMCNTHfV8v4rf4iSZjW33HfRgHzLfqD/ZVK3IPDRTJopPEv6uR/r2SMTjv4U8xbt8uhi+NhH9i1zP/0VXj6spLB+jrCcrdt4TfEq7dXfbDv3ZSzLoK0tB8/KcOMhWdJRizkZ06g4i8l5xH3UrVCb+57gmo38Wo0n6bSHkM1ECcuq8Olo9RY5QTbJ0gMhDoyW/XyzVNP/uC7Gl4W6wYFoAFnOG9/0yvQyelFbdmqodVhFqt4IzvQc9BFJlO+ydNm7Kj5vFZVg6y0AKPpBOyVbaF4l0KFwuSMoVvvGrj8VvvUuBdnpmCxQE9QbAF0bGx7w=
