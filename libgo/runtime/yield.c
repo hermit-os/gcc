@@ -23,8 +23,8 @@
 #endif
 
 #ifdef __hermit__
+void sys_usleep(unsigned long usecs);
 void sys_yield(void);
-void udelay(unsigned int usecs);
 
 #define sched_yield  sys_yield
 #endif
@@ -60,7 +60,7 @@ void
 runtime_usleep (uint32 us)
 {
 #ifdef __hermit__
-  udelay(us);
+  sys_usleep(us);
 #else
   struct timeval tv;
 
