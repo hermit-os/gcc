@@ -36,7 +36,7 @@ apt-get install -y wget curl gnupg checkinstall gawk dialog apt-utils flex bison
 
 echo "deb [trusted=yes] https://dl.bintray.com/hermitcore/ubuntu bionic main" | tee -a /etc/apt/sources.list 
 apt-get update
-apt-get install -y --allow-unauthenticated binutils-hermit gcc-hermit-bootstrap newlib-hermit pte-hermit libhermit
+apt-get install -y --allow-unauthenticated binutils-hermit gcc-hermit-bootstrap newlib-hermit-rs pte-hermit-rs libhermit-rs
 export PATH=/opt/hermit/bin:$PATH
 
 wget ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2 -O isl-0.15.tar.bz2
@@ -54,11 +54,11 @@ cd build
 ../configure --target=x86_64-hermit --prefix=/opt/hermit --with-newlib --disable-multilib --without-libatomic --with-tune=generic --enable-languages=c,c++,go,fortran,lto --disable-nls --disable-shared --disable-libssp --enable-threads=posix --disable-libgomp --enable-tls --enable-lto --disable-symvers
 make -j2 > /dev/null
 apt-get remove -y gcc-hermit-bootstrap
-checkinstall -D -y --exclude=build --pkggroup=main --maintainer=stefan@eonerc.rwth-aachen.de --pkgsource=https://hermitcore.org --pkgname=gcc-hermit --pkgversion=6.3.0 --pkglicense=GPL2 make install
+checkinstall -D -y --exclude=build --pkggroup=main --maintainer=stefan@eonerc.rwth-aachen.de --pkgsource=https://hermitcore.org --pkgname=gcc-hermit-rs --pkgversion=6.3.0 --conflicts=gcc-hermit --pkglicense=GPL2 make install
 
 cd ..
 mkdir -p tmp
-dpkg-deb -R build/gcc-hermit_6.3.0-1_amd64.deb tmp
-rm -f build/gcc-hermit_6.3.0-1_amd64.deb
+dpkg-deb -R build/gcc-hermit-rs_6.3.0-1_amd64.deb tmp
+rm -f build/gcc-hermit-rs_6.3.0-1_amd64.deb
 
 fi
