@@ -244,7 +244,7 @@ libgo_llgo_la_DEPENDENCIES = $(am__DEPENDENCIES_5)
 @LIBGO_IS_LINUX_TRUE@am__objects_6 = netpoll_epoll.lo
 @LIBGO_IS_RTEMS_TRUE@am__objects_7 = rtems-task-variable-add.lo
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_8 = getncpu-none.lo
-@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_8 = getncpu-hermit.lo
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_8 = getncpu-solaris.lo
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@am__objects_8 = getncpu-bsd.lo
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_8 = getncpu-bsd.lo
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@am__objects_8 = getncpu-solaris.lo
@@ -834,7 +834,8 @@ toolexeclibgounicode_DATA = \
 @LIBGO_IS_LINUX_FALSE@runtime_lock_files = runtime/lock_sema.c runtime/thread-sema.c
 @LIBGO_IS_LINUX_TRUE@runtime_lock_files = runtime/lock_futex.c runtime/thread-linux.c
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_getncpu_file = runtime/getncpu-none.c
-@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_getncpu_file = runtime/getncpu-hermit.c
+# HermitCore-rs supports the POSIX _SC_NPROCESSORS_ONLN sysconf() parameter used by getncpu-solaris.c.
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_getncpu_file = runtime/getncpu-solaris.c
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@runtime_getncpu_file = runtime/getncpu-bsd.c
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_getncpu_file = runtime/getncpu-bsd.c
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@runtime_getncpu_file = runtime/getncpu-solaris.c
@@ -2795,7 +2796,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/cpuprof.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/env_posix.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getncpu-bsd.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getncpu-hermit.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getncpu-irix.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getncpu-linux.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/getncpu-none.Plo@am__quote@
@@ -3622,12 +3622,12 @@ getncpu-none.lo: runtime/getncpu-none.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getncpu-none.lo `test -f 'runtime/getncpu-none.c' || echo '$(srcdir)/'`runtime/getncpu-none.c
 
-getncpu-hermit.lo: runtime/getncpu-hermit.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT getncpu-hermit.lo -MD -MP -MF $(DEPDIR)/getncpu-hermit.Tpo -c -o getncpu-hermit.lo `test -f 'runtime/getncpu-hermit.c' || echo '$(srcdir)/'`runtime/getncpu-hermit.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/getncpu-hermit.Tpo $(DEPDIR)/getncpu-hermit.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='runtime/getncpu-hermit.c' object='getncpu-hermit.lo' libtool=yes @AMDEPBACKSLASH@
+getncpu-solaris.lo: runtime/getncpu-solaris.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT getncpu-solaris.lo -MD -MP -MF $(DEPDIR)/getncpu-solaris.Tpo -c -o getncpu-solaris.lo `test -f 'runtime/getncpu-solaris.c' || echo '$(srcdir)/'`runtime/getncpu-solaris.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/getncpu-solaris.Tpo $(DEPDIR)/getncpu-solaris.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='runtime/getncpu-solaris.c' object='getncpu-solaris.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getncpu-hermit.lo `test -f 'runtime/getncpu-hermit.c' || echo '$(srcdir)/'`runtime/getncpu-hermit.c
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getncpu-solaris.lo `test -f 'runtime/getncpu-solaris.c' || echo '$(srcdir)/'`runtime/getncpu-solaris.c
 
 getncpu-bsd.lo: runtime/getncpu-bsd.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT getncpu-bsd.lo -MD -MP -MF $(DEPDIR)/getncpu-bsd.Tpo -c -o getncpu-bsd.lo `test -f 'runtime/getncpu-bsd.c' || echo '$(srcdir)/'`runtime/getncpu-bsd.c
@@ -3635,13 +3635,6 @@ getncpu-bsd.lo: runtime/getncpu-bsd.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='runtime/getncpu-bsd.c' object='getncpu-bsd.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getncpu-bsd.lo `test -f 'runtime/getncpu-bsd.c' || echo '$(srcdir)/'`runtime/getncpu-bsd.c
-
-getncpu-solaris.lo: runtime/getncpu-solaris.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT getncpu-solaris.lo -MD -MP -MF $(DEPDIR)/getncpu-solaris.Tpo -c -o getncpu-solaris.lo `test -f 'runtime/getncpu-solaris.c' || echo '$(srcdir)/'`runtime/getncpu-solaris.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/getncpu-solaris.Tpo $(DEPDIR)/getncpu-solaris.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='runtime/getncpu-solaris.c' object='getncpu-solaris.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getncpu-solaris.lo `test -f 'runtime/getncpu-solaris.c' || echo '$(srcdir)/'`runtime/getncpu-solaris.c
 
 getncpu-irix.lo: runtime/getncpu-irix.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT getncpu-irix.lo -MD -MP -MF $(DEPDIR)/getncpu-irix.Tpo -c -o getncpu-irix.lo `test -f 'runtime/getncpu-irix.c' || echo '$(srcdir)/'`runtime/getncpu-irix.c

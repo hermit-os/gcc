@@ -430,7 +430,8 @@ if LIBGO_IS_NETBSD
 runtime_getncpu_file = runtime/getncpu-bsd.c
 else
 if LIBGO_IS_HERMIT
-runtime_getncpu_file = runtime/getncpu-hermit.c
+# HermitCore-rs supports the POSIX _SC_NPROCESSORS_ONLN sysconf() parameter used by getncpu-solaris.c.
+runtime_getncpu_file = runtime/getncpu-solaris.c
 else
 runtime_getncpu_file = runtime/getncpu-none.c
 endif
