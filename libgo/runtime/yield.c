@@ -24,9 +24,6 @@
 
 #ifdef __hermit__
 void sys_usleep(unsigned long usecs);
-void sys_yield(void);
-
-#define sched_yield  sys_yield
 #endif
 
 #include "runtime.h"
