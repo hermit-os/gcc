@@ -53,7 +53,7 @@ sed -i 's/STMP_FIXINC=stmp-fixinc/STMP_FIXINC=/g' gcc/configure
 mkdir -p build
 cd build
 ../configure --target=x86_64-hermit --prefix=/opt/hermit --with-newlib --disable-multilib --without-libatomic --with-tune=generic --enable-languages=c,c++,go,fortran,lto --disable-nls --disable-shared --disable-libssp --enable-threads=posix --disable-libgomp --enable-tls --enable-lto --disable-symvers || exit 1
-make -j2 || exit 1
+make -j2 > /dev/null || exit 1
 apt-get remove -y gcc-hermit-bootstrap
 checkinstall -D -y --exclude=build --pkggroup=main --maintainer=stefan@eonerc.rwth-aachen.de --pkgsource=https://hermitcore.org --pkgname=gcc-hermit-rs --pkgversion=6.3.0 --conflicts=gcc-hermit --pkglicense=GPL2 make install || exit 1
 
