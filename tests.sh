@@ -55,7 +55,7 @@ cd build
 ../configure --target=x86_64-hermit --prefix=/opt/hermit --with-newlib --disable-multilib --without-libatomic --with-tune=generic --enable-languages=c,c++,go,fortran,lto --disable-nls --disable-shared --disable-libssp --enable-threads=posix --disable-libgomp --enable-tls --enable-lto --disable-symvers || exit 1
 make -j2 > /dev/null || exit 1
 apt-get remove -y gcc-hermit-bootstrap
-checkinstall -D -y --exclude=build --pkggroup=main --maintainer=stefan@eonerc.rwth-aachen.de --pkgsource=https://hermitcore.org --pkgname=gcc-hermit-rs --pkgversion=6.3.0 --conflicts=gcc-hermit --requires=libgmp10 --requires=libisl19 --requires=libmpc3 --requires=libmpfr6 --pkglicense=GPL2 make install || exit 1
+checkinstall -D -y --exclude=build --pkggroup=main --maintainer=stefan@eonerc.rwth-aachen.de --pkgsource=https://hermitcore.org --pkgname=gcc-hermit-rs --pkgversion=6.3.0 --conflicts=gcc-hermit --requires="libgmp10, libisl19, libmpc3, libmpfr6" --pkglicense=GPL2 make install || exit 1
 
 cd ..
 mkdir -p tmp
