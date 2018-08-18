@@ -4,7 +4,7 @@ git:
   submodules: false
 env:
   matrix:
-  #- OS_TYPE=debian OS_VERSION=9 OS_NAME=stretch
+  - OS_TYPE=debian OS_VERSION=9 OS_NAME=stretch
   - OS_TYPE=ubuntu OS_VERSION=18.04 OS_NAME=bionic
 services:
 - docker
@@ -20,11 +20,12 @@ script:
 before_deploy:
 - cd ${TRAVIS_BUILD_DIR}
 - dpkg-deb -b tmp gcc-hermit-bootstrap_6.3.0-1_amd64.deb
+- sed -i "s/REPLACE_REPO/$OS_TYPE/" .bintray_descriptor.json
+- sed -i "s/REPLACE_OS/$OS_NAME/" .bintray_descriptor.json
 deploy:
   provider: bintray
   on:
     branch: bootstrap
-    #condition: $OS_NAME = stretch
   skip_cleanup: true
   file: ".bintray_descriptor.json"
   key:
