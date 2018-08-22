@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Used to prevent timeouts in travis
 progress_idicator(){
