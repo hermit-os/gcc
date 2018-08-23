@@ -50,10 +50,10 @@ apt-get update
 apt-get install -y --allow-unauthenticated binutils-hermit gcc-hermit-bootstrap newlib-hermit pte-hermit libhermit
 export PATH=/opt/hermit/bin:$PATH
 
-#wget ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2 -O isl-0.15.tar.bz2
-#tar jxf isl-0.15.tar.bz2
-#mv isl-0.15 isl
-#rm isl-0.15.tar.bz2
+wget ftp://gcc.gnu.org/pub/gcc/infrastructure/isl-0.15.tar.bz2 -O isl-0.15.tar.bz2
+tar jxf isl-0.15.tar.bz2
+mv isl-0.15 isl
+rm isl-0.15.tar.bz2
 
 # don't run fixincludes, this is accidentally done by dh and kinda broken		
 #  reference: https://gcc.gnu.org/ml/gcc/2013-04/msg00171.html		
