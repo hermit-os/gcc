@@ -65,6 +65,17 @@ cd build
 ../configure --target=x86_64-hermit --prefix=/opt/hermit --with-newlib --disable-multilib --without-libatomic --with-tune=generic --enable-languages=c,c++,go,fortran,lto --disable-nls --disable-shared --disable-libssp --enable-threads=posix --disable-libgomp --enable-tls --enable-lto --disable-symvers
 make -j2 > /dev/null
 apt-get remove -y gcc-hermit-bootstrap
+mkdir -p /opt/hermit/libexec/gcc/x86_64-hermit/6.3.0/install-tools
+mkdir -p /opt/hermit/x86_64-hermit/include/c++
+mkdir -p /opt/hermit/lib/g/opt/hermit/lib/gcc/x86_64-hermit/6.3.0/install-tools/includecc
+mkdir -p /opt/hermit/lib/gcc/x86_64-hermit/6.3.0/install-tools/include
+mkdir -p /opt/hermit/x86_64-hermit/lib/go/6.3.0/x86_64-hermit
+mkdir -p /opt/hermit/lib/gcc/x86_64-hermit/6.3.0/include
+mkdir -p /opt/hermit/lib/gcc/x86_64-hermit/6.3.0/finclude
+mkdir -p /opt/hermit/lib/gcc/x86_64-hermit/6.3.0/include-fixed
+mkdir -p /opt/hermit/lib/gcc/x86_64-hermit/6.3.0/include-tools
+mkdir -p /opt/hermit/lib/gcc/x86_64-hermit/6.3.0/plugin
+mkdir -p /opt/hermit/share/gcc-6.3.0/python/libstdcxx/v6
 checkinstall -D -y --exclude=build --pkggroup=main --maintainer=stefan@eonerc.rwth-aachen.de --pkgsource=https://hermitcore.org --pkgname=gcc-hermit --pkgversion=6.3.0 --conflicts=gcc-hermit-rs --pkglicense=GPL2 make install
 
 cd ..
