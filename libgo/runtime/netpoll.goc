@@ -98,7 +98,7 @@ func runtime_pollServerInit() {
 	runtime_netpollinit();
 }
 
-func runtime_pollOpen(fd uintptr) (pd *PollDesc, errno int) {
+func runtime_pollOpen(fd uintptr) (pd *PollDesc, err int) {
 	pd = allocPollDesc();
 	runtime_lock(pd);
 	if(pd->wg != nil && pd->wg != READY)
@@ -114,7 +114,7 @@ func runtime_pollOpen(fd uintptr) (pd *PollDesc, errno int) {
 	pd->wd = 0;
 	runtime_unlock(pd);
 
-	errno = runtime_netpollopen(fd, pd);
+	err = runtime_netpollopen(fd, pd);
 }
 
 func runtime_pollClose(pd *PollDesc) {
