@@ -85,6 +85,10 @@ w32_gethostname (char *name, size_t len)
    INTEGER, INTENT(OUT), OPTIONAL :: STATUS  */
 
 #ifdef HAVE_GETHOSTNAME
+#ifdef __hermit__
+int gethostname(char *name, size_t namelen);
+#endif
+
 static int
 hostnm_0 (char *name, gfc_charlen_type name_len)
 {
