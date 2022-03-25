@@ -11,7 +11,9 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#ifndef __hermit__
 #include <sys/ioctl.h>
+#endif
 
 /* The syscall package calls C functions.  The Go compiler can not
    represent a C varargs functions.  On some systems it's important
@@ -30,11 +32,13 @@ __go_fcntl (int fd, int cmd, int arg)
   return fcntl (fd, cmd, arg);
 }
 
+#ifndef __hermit__
 int
 __go_fcntl_flock (int fd, int cmd, struct flock *arg)
 {
   return fcntl (fd, cmd, arg);
 }
+#endif
 
 // This is for the net package.  We use uintptr_t to make sure that
 // the types match, since the Go and C "int" types are not the same.
@@ -58,6 +62,7 @@ __go_fcntl_uintptr (uintptr_t fd, uintptr_t cmd, uintptr_t arg)
   return ret;
 }
 
+#ifndef __hermit__
 int
 __go_ioctl (int d, int request, int arg)
 {
@@ -69,6 +74,7 @@ __go_ioctl_ptr (int d, int request, void *arg)
 {
   return ioctl (d, request, arg);
 }
+#endif
 
 #ifdef HAVE_OPEN64
 

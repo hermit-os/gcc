@@ -32,6 +32,7 @@ struct callers_data
 /* Callback function for backtrace_full.  Just collect the locations.
    Return zero to continue, non-zero to stop.  */
 
+#ifndef __hermit__
 static int
 callback (void *data, uintptr_t pc, const char *filename, int lineno,
 	  const char *function)
@@ -153,6 +154,7 @@ error_callback (void *data __attribute__ ((unused)),
     runtime_printf ("%s errno %d\n", msg, errnum);
   runtime_throw (msg);
 }
+#endif
 
 /* Gather caller PC's.  */
 
@@ -167,8 +169,10 @@ runtime_callers (int32 skip, Location *locbuf, int32 m, bool keep_thunks)
   data.max = m;
   data.keep_thunks = keep_thunks;
   runtime_xadd (&runtime_in_callers, 1);
+#ifndef __hermit__
   backtrace_full (__go_get_backtrace_state (), 0, callback, error_callback,
 		  &data);
+#endif
   runtime_xadd (&runtime_in_callers, -1);
   return data.index;
 }
