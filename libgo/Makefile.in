@@ -168,72 +168,83 @@ libnetgo_a_DEPENDENCIES = netgo.o
 am__objects_1 =
 am__objects_2 = $(am__objects_1) $(am__objects_1) $(am__objects_1) \
 	$(am__objects_1) $(am__objects_1) $(am__objects_1) \
-	$(am__objects_1)
+	$(am__objects_1) $(am__objects_1) $(am__objects_1)
 am__objects_3 = $(am__objects_2)
 am_libnetgo_a_OBJECTS = $(am__objects_3)
 libnetgo_a_OBJECTS = $(am_libnetgo_a_OBJECTS)
 LTLIBRARIES = $(toolexeclib_LTLIBRARIES)
-am__DEPENDENCIES_1 =
-am__DEPENDENCIES_2 = bufio.lo bytes.lo bytes/index.lo crypto.lo \
+@LIBGO_IS_HERMIT_FALSE@am__DEPENDENCIES_1 = exp/terminal.lo net.lo
+am__DEPENDENCIES_2 =
+@LIBGO_IS_HERMIT_FALSE@am__DEPENDENCIES_3 = os/signal.lo
+am__DEPENDENCIES_4 = bufio.lo bytes.lo bytes/index.lo crypto.lo \
 	encoding.lo errors.lo expvar.lo flag.lo fmt.lo hash.lo html.lo \
-	image.lo io.lo log.lo math.lo mime.lo net.lo os.lo path.lo \
+	image.lo io.lo log.lo math.lo mime.lo os.lo path.lo \
 	reflect-go.lo reflect/makefunc_ffi_c.lo regexp.lo \
 	runtime-go.lo sort.lo strconv.lo strings.lo strings/index.lo \
 	sync.lo syscall.lo syscall/errno.lo syscall/signame.lo \
-	syscall/wait.lo testing.lo time-go.lo unicode.lo \
-	archive/tar.lo archive/zip.lo compress/bzip2.lo \
-	compress/flate.lo compress/gzip.lo compress/lzw.lo \
-	compress/zlib.lo container/heap.lo container/list.lo \
-	container/ring.lo crypto/aes.lo crypto/cipher.lo crypto/des.lo \
-	crypto/dsa.lo crypto/ecdsa.lo crypto/elliptic.lo \
-	crypto/hmac.lo crypto/md5.lo crypto/rand.lo crypto/rc4.lo \
-	crypto/rsa.lo crypto/sha1.lo crypto/sha256.lo crypto/sha512.lo \
-	crypto/subtle.lo crypto/tls.lo crypto/x509.lo \
+	testing.lo time-go.lo unicode.lo archive/tar.lo archive/zip.lo \
+	compress/bzip2.lo compress/flate.lo compress/gzip.lo \
+	compress/lzw.lo compress/zlib.lo container/heap.lo \
+	container/list.lo container/ring.lo crypto/aes.lo \
+	crypto/cipher.lo crypto/des.lo crypto/dsa.lo crypto/ecdsa.lo \
+	crypto/elliptic.lo crypto/hmac.lo crypto/md5.lo crypto/rand.lo \
+	crypto/rc4.lo crypto/rsa.lo crypto/sha1.lo crypto/sha256.lo \
+	crypto/sha512.lo crypto/subtle.lo crypto/tls.lo crypto/x509.lo \
 	crypto/x509/pkix.lo database/sql.lo database/sql/driver.lo \
 	debug/dwarf.lo debug/elf.lo debug/gosym.lo debug/macho.lo \
 	debug/pe.lo debug/plan9obj.lo encoding/ascii85.lo \
 	encoding/asn1.lo encoding/base32.lo encoding/base64.lo \
 	encoding/binary.lo encoding/csv.lo encoding/gob.lo \
 	encoding/hex.lo encoding/json.lo encoding/pem.lo \
-	encoding/xml.lo exp/proxy.lo exp/terminal.lo html/template.lo \
-	go/ast.lo go/build.lo go/constant.lo go/doc.lo go/format.lo \
-	go/importer.lo go/internal/gcimporter.lo \
-	go/internal/gccgoimporter.lo go/parser.lo go/printer.lo \
-	go/scanner.lo go/token.lo go/types.lo hash/adler32.lo \
-	hash/crc32.lo hash/crc64.lo hash/fnv.lo net/http/cgi.lo \
-	net/http/cookiejar.lo net/http/fcgi.lo net/http/httptest.lo \
+	encoding/xml.lo exp/proxy.lo $(am__DEPENDENCIES_1) \
+	html/template.lo go/ast.lo go/build.lo go/constant.lo \
+	go/doc.lo go/format.lo go/importer.lo \
+	go/internal/gcimporter.lo go/internal/gccgoimporter.lo \
+	go/parser.lo go/printer.lo go/scanner.lo go/token.lo \
+	go/types.lo hash/adler32.lo hash/crc32.lo hash/crc64.lo \
+	hash/fnv.lo net/http/cookiejar.lo net/http/httptest.lo \
 	net/http/httputil.lo net/http/internal.lo net/http/pprof.lo \
 	image/color.lo image/color/palette.lo image/draw.lo \
 	image/gif.lo image/internal/imageutil.lo image/jpeg.lo \
 	image/png.lo index/suffixarray.lo \
 	internal/golang.org/x/net/http2/hpack.lo internal/race.lo \
 	internal/singleflight.lo internal/syscall/unix.lo \
-	internal/testenv.lo internal/trace.lo io/ioutil.lo \
-	log/syslog.lo log/syslog/syslog_c.lo math/big.lo math/cmplx.lo \
-	math/rand.lo mime/multipart.lo mime/quotedprintable.lo \
-	net/http.lo net/internal/socktest.lo net/mail.lo net/rpc.lo \
-	net/smtp.lo net/textproto.lo net/url.lo old/regexp.lo \
-	old/template.lo os/exec.lo $(am__DEPENDENCIES_1) os/signal.lo \
-	os/user.lo path/filepath.lo regexp/syntax.lo \
-	net/rpc/jsonrpc.lo runtime/debug.lo runtime/pprof.lo \
-	sync/atomic.lo sync/atomic_c.lo text/scanner.lo \
-	text/tabwriter.lo text/template.lo text/template/parse.lo \
-	testing/iotest.lo testing/quick.lo unicode/utf16.lo \
-	unicode/utf8.lo
-am__DEPENDENCIES_3 = $(am__DEPENDENCIES_2) \
-	../libbacktrace/libbacktrace.la $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1) $(am__DEPENDENCIES_1)
-libgo_llgo_la_DEPENDENCIES = $(am__DEPENDENCIES_3)
+	internal/testenv.lo internal/trace.lo io/ioutil.lo math/big.lo \
+	math/cmplx.lo math/rand.lo mime/multipart.lo \
+	mime/quotedprintable.lo net/http.lo net/internal/socktest.lo \
+	net/mail.lo net/rpc.lo net/smtp.lo net/textproto.lo net/url.lo \
+	old/regexp.lo old/template.lo $(os_lib_other_exec) \
+	$(am__DEPENDENCIES_2) $(am__DEPENDENCIES_3) os/user.lo \
+	path/filepath.lo regexp/syntax.lo net/rpc/jsonrpc.lo \
+	runtime/debug.lo runtime/pprof.lo sync/atomic.lo \
+	sync/atomic_c.lo text/scanner.lo text/tabwriter.lo \
+	text/template.lo text/template/parse.lo testing/iotest.lo \
+	testing/quick.lo unicode/utf16.lo unicode/utf8.lo
+@LIBGO_IS_HERMIT_FALSE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_4) \
+@LIBGO_IS_HERMIT_FALSE@	../libbacktrace/libbacktrace.la \
+@LIBGO_IS_HERMIT_FALSE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_FALSE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_FALSE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_FALSE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_FALSE@	$(am__DEPENDENCIES_2)
+@LIBGO_IS_HERMIT_TRUE@am__DEPENDENCIES_5 = $(am__DEPENDENCIES_4) \
+@LIBGO_IS_HERMIT_TRUE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_TRUE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_TRUE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_TRUE@	$(am__DEPENDENCIES_2) \
+@LIBGO_IS_HERMIT_TRUE@	$(am__DEPENDENCIES_2)
+libgo_llgo_la_DEPENDENCIES = $(am__DEPENDENCIES_5)
 @LIBGO_IS_LINUX_FALSE@am__objects_4 = lock_sema.lo thread-sema.lo
 @LIBGO_IS_LINUX_TRUE@am__objects_4 = lock_futex.lo thread-linux.lo
 @HAVE_SYS_MMAN_H_FALSE@am__objects_5 = mem_posix_memalign.lo
 @HAVE_SYS_MMAN_H_TRUE@am__objects_5 = mem.lo
-@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_6 = netpoll_kqueue.lo
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_6 = netpoll_kqueue.lo
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_6 = netpoll_select.lo
 @LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@am__objects_6 = netpoll_select.lo
 @LIBGO_IS_LINUX_TRUE@am__objects_6 = netpoll_epoll.lo
 @LIBGO_IS_RTEMS_TRUE@am__objects_7 = rtems-task-variable-add.lo
-@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_8 = getncpu-none.lo
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_8 = getncpu-none.lo
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_8 = getncpu-solaris.lo
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@am__objects_8 = getncpu-bsd.lo
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@am__objects_8 = getncpu-bsd.lo
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@am__objects_8 = getncpu-solaris.lo
@@ -276,7 +287,7 @@ libgo_llgo_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
 	$(libgo_llgo_la_LDFLAGS) $(LDFLAGS) -o $@
 @GOC_IS_LLGO_TRUE@am_libgo_llgo_la_rpath = -rpath $(toolexeclibdir)
-libgo_la_DEPENDENCIES = $(am__DEPENDENCIES_3)
+libgo_la_DEPENDENCIES = $(am__DEPENDENCIES_5)
 am_libgo_la_OBJECTS = $(am__objects_9)
 libgo_la_OBJECTS = $(am_libgo_la_OBJECTS)
 libgo_la_LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
@@ -679,10 +690,11 @@ toolexeclibgoencoding_DATA = \
 	encoding/xml.gox
 
 toolexeclibgoexpdir = $(toolexeclibgodir)/exp
-toolexeclibgoexp_DATA = \
-	exp/proxy.gox \
-	exp/terminal.gox
+@LIBGO_IS_HERMIT_FALSE@toolexeclibgoexp_DATA = \
+@LIBGO_IS_HERMIT_FALSE@	exp/proxy.gox \
+@LIBGO_IS_HERMIT_FALSE@	exp/terminal.gox
 
+@LIBGO_IS_HERMIT_TRUE@toolexeclibgoexp_DATA = 
 toolexeclibgogodir = $(toolexeclibgodir)/go
 toolexeclibgogo_DATA = \
 	go/ast.gox \
@@ -729,9 +741,10 @@ toolexeclibgoio_DATA = \
 	io/ioutil.gox
 
 toolexeclibgologdir = $(toolexeclibgodir)/log
-toolexeclibgolog_DATA = \
-	log/syslog.gox
+@LIBGO_IS_HERMIT_FALSE@toolexeclibgolog_DATA = \
+@LIBGO_IS_HERMIT_FALSE@	log/syslog.gox
 
+@LIBGO_IS_HERMIT_TRUE@toolexeclibgolog_DATA = 
 toolexeclibgomathdir = $(toolexeclibgodir)/math
 toolexeclibgomath_DATA = \
 	math/big.gox \
@@ -771,11 +784,12 @@ toolexeclibgoold_DATA = \
 	old/template.gox
 
 toolexeclibgoosdir = $(toolexeclibgodir)/os
-toolexeclibgoos_DATA = \
-	os/exec.gox \
-	os/signal.gox \
-	os/user.gox
+@LIBGO_IS_HERMIT_FALSE@toolexeclibgoos_DATA = \
+@LIBGO_IS_HERMIT_FALSE@	os/exec.gox \
+@LIBGO_IS_HERMIT_FALSE@	os/signal.gox \
+@LIBGO_IS_HERMIT_FALSE@	os/user.gox
 
+@LIBGO_IS_HERMIT_TRUE@toolexeclibgoos_DATA = os/exec.gox
 toolexeclibgopathdir = $(toolexeclibgodir)/path
 toolexeclibgopath_DATA = \
 	path/filepath.gox
@@ -819,14 +833,17 @@ toolexeclibgounicode_DATA = \
 @LIBGO_IS_RTEMS_TRUE@rtems_task_variable_add_file = runtime/rtems-task-variable-add.c
 @LIBGO_IS_LINUX_FALSE@runtime_lock_files = runtime/lock_sema.c runtime/thread-sema.c
 @LIBGO_IS_LINUX_TRUE@runtime_lock_files = runtime/lock_futex.c runtime/thread-linux.c
-@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_getncpu_file = runtime/getncpu-none.c
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_getncpu_file = runtime/getncpu-none.c
+# HermitCore-rs supports the POSIX _SC_NPROCESSORS_ONLN sysconf() parameter used by getncpu-solaris.c.
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_getncpu_file = runtime/getncpu-solaris.c
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@runtime_getncpu_file = runtime/getncpu-bsd.c
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_getncpu_file = runtime/getncpu-bsd.c
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@runtime_getncpu_file = runtime/getncpu-solaris.c
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_IRIX_TRUE@@LIBGO_IS_LINUX_FALSE@runtime_getncpu_file = runtime/getncpu-irix.c
 @LIBGO_IS_DARWIN_TRUE@@LIBGO_IS_LINUX_FALSE@runtime_getncpu_file = runtime/getncpu-bsd.c
 @LIBGO_IS_LINUX_TRUE@runtime_getncpu_file = runtime/getncpu-linux.c
-@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_netpoll_files = runtime/netpoll_kqueue.c
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_netpoll_files = runtime/netpoll_kqueue.c
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@runtime_netpoll_files = runtime/netpoll_select.c
 @LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@runtime_netpoll_files = runtime/netpoll_select.c
 @LIBGO_IS_LINUX_TRUE@runtime_netpoll_files = runtime/netpoll_epoll.c
 runtime_files = \
@@ -1045,37 +1062,41 @@ go_mime_files = \
 	go/mime/type_unix.go \
 	$(go_mime_type_file)
 
-@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_file = go/net/cgo_bsd.go
-@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_file = go/net/cgo_netbsd.go
-@LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_file = go/net/cgo_bsd.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_file = go/net/cgo_unix.go go/net/cgo_bsd.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_file = go/net/cgo_stub.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_file = go/net/cgo_unix.go go/net/cgo_netbsd.go
+@LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_file = go/net/cgo_unix.go go/net/cgo_bsd.go
 @LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_net_cgo_file = go/net/cgo_solaris.go
-@LIBGO_IS_IRIX_TRUE@@LIBGO_IS_LINUX_FALSE@go_net_cgo_file = go/net/cgo_linux.go
-@LIBGO_IS_LINUX_TRUE@go_net_cgo_file = go/net/cgo_linux.go
-@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sock_file = go/net/sock_bsd.go
+@LIBGO_IS_IRIX_TRUE@@LIBGO_IS_LINUX_FALSE@go_net_cgo_file = go/net/cgo_unix.go go/net/cgo_linux.go
+@LIBGO_IS_LINUX_TRUE@go_net_cgo_file = go/net/cgo_unix.go go/net/cgo_linux.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sock_file = go/net/sock_bsd.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sock_file = go/net/sock_stub.go
 @LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_net_sock_file = go/net/sock_bsd.go
 @LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sock_file = go/net/sock_bsd.go
 @LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_net_sock_file = go/net/sock_stub.go
 @LIBGO_IS_IRIX_TRUE@@LIBGO_IS_LINUX_FALSE@go_net_sock_file = go/net/sock_linux.go
 @LIBGO_IS_LINUX_TRUE@go_net_sock_file = go/net/sock_linux.go
-@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sockopt_file = go/net/sockopt_bsd.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sockopt_file = go/net/sockopt_bsd.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sockopt_file = go/net/sockopt_hermit.go
 @LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_net_sockopt_file = go/net/sockopt_bsd.go
 @LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sockopt_file = go/net/sockopt_bsd.go
 @LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_net_sockopt_file = go/net/sockopt_solaris.go
 @LIBGO_IS_IRIX_TRUE@@LIBGO_IS_LINUX_FALSE@go_net_sockopt_file = go/net/sockopt_linux.go
 @LIBGO_IS_LINUX_TRUE@go_net_sockopt_file = go/net/sockopt_linux.go
-@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sockoptip_file = go/net/sockoptip_bsd.go go/net/sockoptip_posix.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sockoptip_file = go/net/sockoptip_bsd.go go/net/sockoptip_posix.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sockoptip_file = go/net/sockoptip_stub.go
 @LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_net_sockoptip_file = go/net/sockoptip_bsd.go go/net/sockoptip_posix.go
 @LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_sockoptip_file = go/net/sockoptip_bsd.go go/net/sockoptip_posix.go
 @LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_net_sockoptip_file = go/net/sockoptip_stub.go
 @LIBGO_IS_IRIX_TRUE@@LIBGO_IS_LINUX_FALSE@go_net_sockoptip_file = go/net/sockoptip_linux.go go/net/sockoptip_posix.go
 @LIBGO_IS_LINUX_TRUE@go_net_sockoptip_file = go/net/sockoptip_linux.go go/net/sockoptip_posix.go
-@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_sock_file = go/net/cgo_sockold.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_sock_file = go/net/cgo_sockold.go
 @LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_sock_file = go/net/cgo_sockold.go
 @LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_sock_file = go/net/cgo_sockold.go
 @LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_net_cgo_sock_file = go/net/cgo_socknew.go
 @LIBGO_IS_IRIX_TRUE@@LIBGO_IS_LINUX_FALSE@go_net_cgo_sock_file = go/net/cgo_socknew.go
 @LIBGO_IS_LINUX_TRUE@go_net_cgo_sock_file = go/net/cgo_socknew.go
-@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_res_file = go/net/cgo_resold.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_res_file = go/net/cgo_resold.go
 @LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_res_file = go/net/cgo_resnew.go
 @LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_cgo_res_file = go/net/cgo_resold.go
 @LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_net_cgo_res_file = go/net/cgo_resnew.go
@@ -1090,28 +1111,40 @@ go_mime_files = \
 @LIBGO_IS_DRAGONFLY_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@go_net_interface_file = go/net/interface_dragonfly.go
 @LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@go_net_interface_file = go/net/interface_netbsd.go
 @LIBGO_IS_LINUX_TRUE@go_net_interface_file = go/net/interface_linux.go
-@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_LINUX_FALSE@go_net_cloexec_file = go/net/sys_cloexec.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@go_net_cloexec_file = go/net/sys_cloexec.go
+@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_LINUX_FALSE@go_net_cloexec_file = go/net/sys_cloexec_hermit.go
 @LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_LINUX_FALSE@go_net_cloexec_file = go/net/sock_cloexec.go go/net/hook_cloexec.go
 @LIBGO_IS_LINUX_TRUE@go_net_cloexec_file = go/net/sock_cloexec.go go/net/hook_cloexec.go
-@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_tcpsockopt_file = go/net/tcpsockopt_unix.go
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_tcpsockopt_file = go/net/tcpsockopt_unix.go
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_tcpsockopt_file = go/net/tcpsockopt_stub.go
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_TRUE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_net_tcpsockopt_file = go/net/tcpsockopt_dragonfly.go
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_net_tcpsockopt_file = go/net/tcpsockopt_solaris.go
 @LIBGO_IS_DARWIN_TRUE@@LIBGO_IS_OPENBSD_FALSE@go_net_tcpsockopt_file = go/net/tcpsockopt_darwin.go
 @LIBGO_IS_OPENBSD_TRUE@go_net_tcpsockopt_file = go/net/tcpsockopt_openbsd.go
+@LIBGO_IS_HERMIT_FALSE@go_net_sock = go/net/iprawsock_posix.go \
+@LIBGO_IS_HERMIT_FALSE@		go/net/unixsock_posix.go \
+@LIBGO_IS_HERMIT_FALSE@		go/net/udpsock_posix.go \
+@LIBGO_IS_HERMIT_FALSE@		go/net/ipsock_posix.go
+
+@LIBGO_IS_HERMIT_TRUE@go_net_sock = go/net/iprawsock_hermit.go \
+@LIBGO_IS_HERMIT_TRUE@		go/net/unixsock_hermit.go \
+@LIBGO_IS_HERMIT_TRUE@		go/net/udpsock_hermit.go \
+@LIBGO_IS_HERMIT_TRUE@		go/net/ipsock_hermit.go
+
+@LIBGO_IS_HERMIT_FALSE@go_net_other = go/net/fd_unix.go go/net/sock_posix.go go/net/tcpsock_posix.go go/net/file_unix.go go/net/conf.go go/net/dial.go go/net/dnsclient_unix.go go/net/lookup_unix.go go/net/sockopt_posix.go go/net/tcpsockopt_posix.go go/net/fd_poll_runtime.go
+@LIBGO_IS_HERMIT_TRUE@go_net_other = go/net/fd_hermit.go go/net/sock_hermit.go go/net/tcpsock_hermit.go go/net/file_stub.go go/net/dial_hermit.go go/net/lookup_stub.go go/net/fd_poll_runtime.go
 go_net_common_files = \
 	go/net/addrselect.go \
 	$(go_net_cloexec_file) \
-	go/net/conf.go \
-	go/net/dial.go \
+	go/net/unixsock.go \
+	go/net/udpsock.go \
 	go/net/dnsclient.go \
-	go/net/dnsclient_unix.go \
 	go/net/dnsconfig_unix.go \
+	$(go_net_other) \
 	go/net/dnsmsg.go \
 	go/net/fd_mutex.go \
 	go/net/fd_posix.go \
-	go/net/fd_unix.go \
 	go/net/file.go \
-	go/net/file_unix.go \
 	go/net/hook.go \
 	go/net/hook_unix.go \
 	go/net/hosts.go \
@@ -1119,11 +1152,8 @@ go_net_common_files = \
 	$(go_net_interface_file) \
 	go/net/ip.go \
 	go/net/iprawsock.go \
-	go/net/iprawsock_posix.go \
 	go/net/ipsock.go \
-	go/net/ipsock_posix.go \
 	go/net/lookup.go \
-	go/net/lookup_unix.go \
 	go/net/mac.go \
 	go/net/net.go \
 	go/net/nss.go \
@@ -1132,22 +1162,14 @@ go_net_common_files = \
 	go/net/fd_poll_runtime.go \
 	go/net/port_unix.go \
 	$(go_net_sendfile_file) \
-	go/net/sock_posix.go \
 	$(go_net_sock_file) \
-	go/net/sockopt_posix.go \
 	$(go_net_sockopt_file) \
 	$(go_net_sockoptip_file) \
 	go/net/tcpsock.go \
-	go/net/tcpsock_posix.go \
-	go/net/tcpsockopt_posix.go \
 	$(go_net_tcpsockopt_file) \
-	go/net/udpsock.go \
-	go/net/udpsock_posix.go \
-	go/net/unixsock.go \
-	go/net/unixsock_posix.go
+	$(go_net_sock)
 
 go_net_files = \
-	go/net/cgo_unix.go \
 	$(go_net_cgo_file) \
 	$(go_net_cgo_res_file) \
 	$(go_net_cgo_sock_file) \
@@ -1157,32 +1179,47 @@ go_netgo_files = \
 	go/net/cgo_stub.go \
 	$(go_net_common_files)
 
-@LIBGO_IS_386_FALSE@@LIBGO_IS_SOLARIS_TRUE@@LIBGO_IS_SPARC_FALSE@go_os_dir_file = go/os/dir_regfile.go
-@LIBGO_IS_386_FALSE@@LIBGO_IS_SOLARIS_TRUE@@LIBGO_IS_SPARC_TRUE@go_os_dir_file = go/os/dir_largefile.go
-@LIBGO_IS_386_TRUE@@LIBGO_IS_SOLARIS_TRUE@go_os_dir_file = go/os/dir_largefile.go
-@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_dir_file = go/os/dir_regfile.go
-@LIBGO_IS_LINUX_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_os_dir_file = go/os/dir_largefile.go
+@LIBGO_IS_386_FALSE@@LIBGO_IS_SOLARIS_TRUE@@LIBGO_IS_SPARC_FALSE@go_os_dir_file = go/os/dir_regfile.go go/os/dir.go
+@LIBGO_IS_386_FALSE@@LIBGO_IS_SOLARIS_TRUE@@LIBGO_IS_SPARC_TRUE@go_os_dir_file = go/os/dir_largefile.go go/os/dir.go
+@LIBGO_IS_386_TRUE@@LIBGO_IS_SOLARIS_TRUE@go_os_dir_file = go/os/dir_largefile.go go/os/dir.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_dir_file = go/os/dir_regfile.go go/os/dir.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_os_dir_file = go/os/dir_largefile.go go/os/dir.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_os_dir_file = 
 @LIBGO_IS_DARWIN_FALSE@go_os_getwd_file = 
 @LIBGO_IS_DARWIN_TRUE@go_os_getwd_file = go/os/getwd_darwin.go
-@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_RTEMS_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_sys_file = go/os/sys_bsd.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_RTEMS_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_sys_file = go/os/sys_bsd.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_RTEMS_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_sys_file = go/os/sys_hermit.go
 @LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_RTEMS_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_os_sys_file = go/os/sys_uname.go
 @LIBGO_IS_IRIX_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_sys_file = go/os/sys_uname.go
 @LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_os_sys_file = go/os/sys_uname.go
 @LIBGO_IS_LINUX_TRUE@go_os_sys_file = go/os/sys_linux.go
-@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@go_os_cloexec_file = go/os/sys_unix.go
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@go_os_cloexec_file = go/os/sys_unix.go
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@go_os_cloexec_file = 
 @LIBGO_IS_DARWIN_TRUE@@LIBGO_IS_FREEBSD_FALSE@go_os_cloexec_file = go/os/sys_darwin.go
 @LIBGO_IS_FREEBSD_TRUE@go_os_cloexec_file = go/os/sys_freebsd.go
 @HAVE_STAT_TIMESPEC_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_os_stat_file = go/os/stat_solaris.go
 @HAVE_STAT_TIMESPEC_TRUE@@LIBGO_IS_SOLARIS_TRUE@go_os_stat_file = go/os/stat_atim.go
-@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_stat_file = go/os/stat.go
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_stat_file = go/os/stat.go
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_stat_file = go/os/stat_hermit.go
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_TRUE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_stat_file = go/os/stat_dragonfly.go
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_stat_file = go/os/stat_atimespec.go
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_stat_file = go/os/stat_atimespec.go
 @LIBGO_IS_DARWIN_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_stat_file = go/os/stat_atimespec.go
 @LIBGO_IS_LINUX_FALSE@@LIBGO_IS_OPENBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_os_stat_file = go/os/stat_atim.go
 @LIBGO_IS_LINUX_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_os_stat_file = go/os/stat_atim.go
-@LIBGO_IS_LINUX_FALSE@go_os_pipe_file = go/os/pipe_bsd.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@go_os_pipe_file = go/os/pipe_bsd.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_LINUX_FALSE@go_os_pipe_file = go/os/pipe_hermit.go
 @LIBGO_IS_LINUX_TRUE@go_os_pipe_file = go/os/pipe_linux.go
+@LIBGO_IS_HERMIT_FALSE@go_os_exec_file = go/os/exec.go go/os/exec_posix.go go/os/exec_unix.go
+@LIBGO_IS_HERMIT_TRUE@go_os_exec_file = go/os/exec.go go/os/exec_hermit.go
+@LIBGO_IS_HERMIT_FALSE@go_os_doc_file = go/os/doc.go
+@LIBGO_IS_HERMIT_TRUE@go_os_doc_file = go/os/doc_hermit.go
+@LIBGO_IS_HERMIT_FALSE@go_os_file_unix = go/os/file_unix.go
+@LIBGO_IS_HERMIT_TRUE@go_os_file_unix = go/os/file_hermit.go
+@LIBGO_IS_HERMIT_FALSE@go_os_getwd = go/os/getwd.go
+@LIBGO_IS_HERMIT_TRUE@go_os_getwd = go/os/getwd_hermit.go
+@LIBGO_IS_HERMIT_FALSE@go_os_path = go/os/path.go
+@LIBGO_IS_HERMIT_TRUE@go_os_path = 
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_os_sticky_file = go/os/sticky_notbsd.go
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_os_sticky_file = go/os/sticky_bsd.go
 @LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_TRUE@go_os_sticky_file = go/os/sticky_bsd.go
@@ -1192,20 +1229,17 @@ go_netgo_files = \
 @LIBGO_IS_DARWIN_TRUE@go_os_sticky_file = go/os/sticky_bsd.go
 go_os_files = \
 	$(go_os_dir_file) \
-	go/os/dir.go \
-	go/os/doc.go \
+	$(go_os_doc_file) \
 	go/os/env.go \
 	go/os/error.go \
 	go/os/error_unix.go \
-	go/os/exec.go \
-	go/os/exec_posix.go \
-	go/os/exec_unix.go \
+	$(go_os_exec_file) \
 	go/os/file.go \
 	go/os/file_posix.go \
-	go/os/file_unix.go \
-	go/os/getwd.go \
+	$(go_os_file_unix) \
+	$(go_os_getwd) \
 	$(go_os_getwd_file) \
-	go/os/path.go \
+	$(go_os_path) \
 	go/os/path_unix.go \
 	$(go_os_pipe_file) \
 	go/os/proc.go \
@@ -1288,17 +1322,20 @@ go_sync_files = \
 	go/sync/rwmutex.go \
 	go/sync/waitgroup.go
 
-@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_syslog_file = go/log/syslog/syslog_unix.go
-@LIBGO_IS_IRIX_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_syslog_file = go/log/syslog/syslog_libc.go
-@LIBGO_IS_SOLARIS_TRUE@go_syslog_file = go/log/syslog/syslog_libc.go
-go_log_syslog_files = \
-	go/log/syslog/doc.go \
-	go/log/syslog/syslog.go \
-	$(go_syslog_file)
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_syslog_file = go/log/syslog/syslog_unix.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_syslog_file = go/log/syslog/syslog_libc.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_SOLARIS_TRUE@go_syslog_file = go/log/syslog/syslog_libc.go
+@LIBGO_IS_HERMIT_TRUE@go_syslog_file = 
+@LIBGO_IS_HERMIT_FALSE@go_log_syslog_files = \
+@LIBGO_IS_HERMIT_FALSE@	go/log/syslog/doc.go \
+@LIBGO_IS_HERMIT_FALSE@	go/log/syslog/syslog.go \
+@LIBGO_IS_HERMIT_FALSE@	$(go_syslog_file)
 
-go_syslog_c_files = \
-	go/log/syslog/syslog_c.c
+@LIBGO_IS_HERMIT_TRUE@go_log_syslog_files = 
+@LIBGO_IS_HERMIT_FALSE@go_syslog_c_files = \
+@LIBGO_IS_HERMIT_FALSE@	go/log/syslog/syslog_c.c
 
+@LIBGO_IS_HERMIT_TRUE@go_syslog_c_files = 
 go_testing_files = \
 	go/testing/allocs.go \
 	go/testing/benchmark.go \
@@ -1325,6 +1362,7 @@ go_unicode_files = \
 
 @LIBGO_IS_DARWIN_TRUE@archive_tar_atim_file = go/archive/tar/stat_atimespec.go
 @LIBGO_IS_FREEBSD_TRUE@archive_tar_atim_file = go/archive/tar/stat_atimespec.go
+@LIBGO_IS_HERMIT_TRUE@archive_tar_atim_file = go/archive/tar/stat_atim_hermit.go
 @LIBGO_IS_LINUX_TRUE@archive_tar_atim_file = go/archive/tar/stat_atim.go
 @LIBGO_IS_NETBSD_TRUE@archive_tar_atim_file = go/archive/tar/stat_atimespec.go
 @LIBGO_IS_OPENBSD_TRUE@archive_tar_atim_file = go/archive/tar/stat_atim.go
@@ -1465,7 +1503,8 @@ go_crypto_tls_files = \
 	go/crypto/tls/ticket.go \
 	go/crypto/tls/tls.go
 
-@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_crypto_x509_root_file = 
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_crypto_x509_root_file = 
+@LIBGO_IS_DARWIN_FALSE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_crypto_x509_root_file = go/crypto/x509/root_bsd.go
 @LIBGO_IS_DARWIN_TRUE@@LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_FALSE@@LIBGO_IS_SOLARIS_FALSE@go_crypto_x509_root_file = go/crypto/x509/root_darwin.go
 @LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_FALSE@@LIBGO_IS_OPENBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_crypto_x509_root_file = go/crypto/x509/root_bsd.go
 @LIBGO_IS_DRAGONFLY_FALSE@@LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_NETBSD_TRUE@@LIBGO_IS_SOLARIS_FALSE@go_crypto_x509_root_file = go/crypto/x509/root_bsd.go
@@ -1904,12 +1943,19 @@ go_net_http_internal_files = \
 @LIBGO_IS_FREEBSD_FALSE@@LIBGO_IS_LINUX_FALSE@go_net_internal_socktest_sys = 
 @LIBGO_IS_FREEBSD_TRUE@@LIBGO_IS_LINUX_FALSE@go_net_internal_socktest_sys = go/net/internal/socktest/sys_cloexec.go
 @LIBGO_IS_LINUX_TRUE@go_net_internal_socktest_sys = go/net/internal/socktest/sys_cloexec.go
-go_net_internal_socktest_files = \
-	go/net/internal/socktest/switch.go \
-	go/net/internal/socktest/switch_posix.go \
-	go/net/internal/socktest/switch_unix.go \
-	go/net/internal/socktest/sys_unix.go \
-	$(go_net_internal_socktest_sys)
+@LIBGO_IS_HERMIT_FALSE@go_net_internal_socktest_files = \
+@LIBGO_IS_HERMIT_FALSE@	go/net/internal/socktest/switch.go \
+@LIBGO_IS_HERMIT_FALSE@	go/net/internal/socktest/switch_posix.go \
+@LIBGO_IS_HERMIT_FALSE@	go/net/internal/socktest/switch_unix.go \
+@LIBGO_IS_HERMIT_FALSE@	go/net/internal/socktest/sys_unix.go \
+@LIBGO_IS_HERMIT_FALSE@	$(go_net_internal_socktest_sys)
+
+@LIBGO_IS_HERMIT_TRUE@go_net_internal_socktest_files = \
+@LIBGO_IS_HERMIT_TRUE@	go/net/internal/socktest/switch.go \
+@LIBGO_IS_HERMIT_TRUE@	go/net/internal/socktest/switch_hermit.go \
+@LIBGO_IS_HERMIT_TRUE@	go/net/internal/socktest/switch_unix.go \
+@LIBGO_IS_HERMIT_TRUE@	go/net/internal/socktest/sys_unix.go \
+@LIBGO_IS_HERMIT_TRUE@	$(go_net_internal_socktest_sys)
 
 go_old_regexp_files = \
 	go/old/regexp/regexp.go
@@ -1920,16 +1966,21 @@ go_old_template_files = \
 	go/old/template/format.go \
 	go/old/template/parse.go
 
-go_os_exec_files = \
-	go/os/exec/exec.go \
-	go/os/exec/exec_posix.go \
-	go/os/exec/lp_unix.go
+@LIBGO_IS_HERMIT_FALSE@go_os_exec_files = \
+@LIBGO_IS_HERMIT_FALSE@	go/os/exec/exec.go \
+@LIBGO_IS_HERMIT_FALSE@	go/os/exec/exec_posix.go \
+@LIBGO_IS_HERMIT_FALSE@	go/os/exec/lp_unix.go
 
-go_os_signal_files = \
-	go/os/signal/doc.go \
-	go/os/signal/signal.go \
-	go/os/signal/signal_unix.go
+@LIBGO_IS_HERMIT_TRUE@go_os_exec_files = \
+@LIBGO_IS_HERMIT_TRUE@	go/os/exec/exec.go \
+@LIBGO_IS_HERMIT_TRUE@	go/os/exec/lp_unix.go
 
+@LIBGO_IS_HERMIT_FALSE@go_os_signal_files = \
+@LIBGO_IS_HERMIT_FALSE@	go/os/signal/doc.go \
+@LIBGO_IS_HERMIT_FALSE@	go/os/signal/signal.go \
+@LIBGO_IS_HERMIT_FALSE@	go/os/signal/signal_unix.go
+
+@LIBGO_IS_HERMIT_TRUE@go_os_signal_files = 
 @LIBGO_IS_SOLARIS_FALSE@os_user_decls_file = go/os/user/decls_unix.go
 @LIBGO_IS_SOLARIS_TRUE@os_user_decls_file = go/os/user/decls_solaris.go
 go_os_user_files = \
@@ -2005,24 +2056,29 @@ go_unicode_utf16_files = \
 go_unicode_utf8_files = \
 	go/unicode/utf8/utf8.go
 
-@LIBGO_IS_RTEMS_FALSE@syscall_syscall_file = go/syscall/syscall_unix.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_RTEMS_FALSE@syscall_syscall_file = go/syscall/syscall_unix.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_RTEMS_FALSE@syscall_syscall_file = go/syscall/syscall_hermit.go
 
 # Define Syscall and Syscall6.
 @LIBGO_IS_RTEMS_TRUE@syscall_syscall_file = go/syscall/syscall_stubs.go
-@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_RTEMS_FALSE@syscall_exec_file = go/syscall/exec_unix.go
-@LIBGO_IS_LINUX_TRUE@@LIBGO_IS_RTEMS_FALSE@syscall_exec_file = go/syscall/exec_unix.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_RTEMS_FALSE@syscall_exec_file = go/syscall/exec_unix.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_TRUE@@LIBGO_IS_RTEMS_FALSE@syscall_exec_file = go/syscall/exec_unix.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_RTEMS_FALSE@syscall_exec_file = go/syscall/exec_stubs.go
 
 # Define ForkExec and Exec.
 @LIBGO_IS_RTEMS_TRUE@syscall_exec_file = go/syscall/exec_stubs.go
-@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_RTEMS_FALSE@syscall_exec_os_file = go/syscall/exec_bsd.go
-@LIBGO_IS_LINUX_TRUE@@LIBGO_IS_RTEMS_FALSE@syscall_exec_os_file = go/syscall/exec_linux.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_RTEMS_FALSE@syscall_exec_os_file = go/syscall/exec_bsd.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_TRUE@@LIBGO_IS_RTEMS_FALSE@syscall_exec_os_file = go/syscall/exec_linux.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_RTEMS_FALSE@syscall_exec_os_file = go/syscall/exec_hermit.go
 @LIBGO_IS_RTEMS_TRUE@syscall_exec_os_file = 
-@HAVE_WAIT4_FALSE@@LIBGO_IS_RTEMS_FALSE@syscall_wait_file = go/syscall/libcall_waitpid.go
-@HAVE_WAIT4_TRUE@@LIBGO_IS_RTEMS_FALSE@syscall_wait_file = go/syscall/libcall_wait4.go
+@HAVE_WAIT4_FALSE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_RTEMS_FALSE@syscall_wait_file = go/syscall/libcall_waitpid.go
+@HAVE_WAIT4_TRUE@@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_RTEMS_FALSE@syscall_wait_file = go/syscall/libcall_wait4.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_RTEMS_FALSE@syscall_wait_file = 
 
 # Define Wait4.
 @LIBGO_IS_RTEMS_TRUE@syscall_wait_file = 
-@LIBGO_IS_RTEMS_FALSE@syscall_wait_c_file = go/syscall/wait.c
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_RTEMS_FALSE@syscall_wait_c_file = go/syscall/wait.c
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_RTEMS_FALSE@syscall_wait_c_file = go/syscall/wait.c
 
 # Support for pulling apart wait status.
 @LIBGO_IS_RTEMS_TRUE@syscall_wait_c_file = 
@@ -2043,12 +2099,14 @@ go_unicode_utf8_files = \
 # Use lseek64 on 32-bit Solaris/x86.
 @LIBGO_IS_386_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@syscall_size_file = go/syscall/libcall_posix_largefile.go
 # Use lseek by default.
-@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@syscall_size_file = go/syscall/libcall_posix_regfile.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@syscall_size_file = go/syscall/libcall_posix_regfile.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@syscall_size_file = go/syscall/libcall_posix_hermitfile.go
 
 # Declare libc functions that vary for largefile systems.
 # Always use lseek64 on GNU/Linux.
 @LIBGO_IS_LINUX_TRUE@syscall_size_file = go/syscall/libcall_posix_largefile.go
-@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@syscall_socket_file = go/syscall/socket_bsd.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@syscall_socket_file = go/syscall/socket_bsd.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_IRIX_FALSE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@syscall_socket_file = go/syscall/socket_bsd_hermit.go
 @LIBGO_IS_IRIX_TRUE@@LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_FALSE@syscall_socket_file = go/syscall/socket_irix.go
 @LIBGO_IS_LINUX_FALSE@@LIBGO_IS_SOLARIS_TRUE@syscall_socket_file = go/syscall/socket_solaris.go
 
@@ -2058,7 +2116,8 @@ go_unicode_utf8_files = \
 @LIBGO_IS_LINUX_TRUE@@LIBGO_IS_PPC64LE_FALSE@@LIBGO_IS_PPC64_FALSE@syscall_socket_type_file = go/syscall/socket_linux_type.go
 @LIBGO_IS_LINUX_TRUE@@LIBGO_IS_PPC64LE_FALSE@@LIBGO_IS_PPC64_TRUE@syscall_socket_type_file = go/syscall/socket_linux_ppc64x_type.go
 @LIBGO_IS_LINUX_TRUE@@LIBGO_IS_PPC64LE_TRUE@syscall_socket_type_file = go/syscall/socket_linux_ppc64x_type.go
-@LIBGO_IS_SOLARIS_FALSE@syscall_socket_os_file = go/syscall/socket_posix.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_SOLARIS_FALSE@syscall_socket_os_file = go/syscall/socket_posix.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_SOLARIS_FALSE@syscall_socket_os_file = 
 
 # Define socket functions.
 @LIBGO_IS_SOLARIS_TRUE@syscall_socket_os_file = go/syscall/socket_xnet.go
@@ -2067,7 +2126,8 @@ go_unicode_utf8_files = \
 # Support for uname.
 # 32-bit Solaris 2/x86 needs _nuname, handled in libcall_solaris_386.go.
 @LIBGO_IS_386_TRUE@@LIBGO_IS_SOLARIS_TRUE@syscall_uname_file = 
-@LIBGO_IS_SOLARIS_FALSE@syscall_uname_file = go/syscall/libcall_uname.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_SOLARIS_FALSE@syscall_uname_file = go/syscall/libcall_uname.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_SOLARIS_FALSE@syscall_uname_file = 
 @LIBGO_IS_LINUX_FALSE@syscall_sockcmsg_file = 
 
 # GNU/Linux specific socket control messages.
@@ -2088,18 +2148,22 @@ go_unicode_utf8_files = \
 
 # Test files.
 @LIBGO_IS_LINUX_TRUE@syscall_creds_test_file = go/syscall/creds_test.go
+@LIBGO_IS_HERMIT_FALSE@syscall_socket = go/syscall/socket.go sockcmsg_unix.go
+@LIBGO_IS_HERMIT_TRUE@syscall_socket = go/syscall/socket_hermit.go
+@LIBGO_IS_HERMIT_FALSE@syscall_posix = go/syscall/libcall_posix.go
+@LIBGO_IS_HERMIT_TRUE@syscall_posix = go/syscall/libcall_posix_hermit.go
 @LIBGO_IS_LINUX_FALSE@syscall_exec_test_file = 
 @LIBGO_IS_LINUX_TRUE@syscall_exec_test_file = go/syscall/exec_linux_test.go go/syscall/syscall_linux_test.go
-@LIBGO_IS_LINUX_FALSE@syscall_os_file = go/syscall/libcall_bsd.go
+@LIBGO_IS_HERMIT_FALSE@@LIBGO_IS_LINUX_FALSE@syscall_os_file = go/syscall/libcall_bsd.go
+@LIBGO_IS_HERMIT_TRUE@@LIBGO_IS_LINUX_FALSE@syscall_os_file = 
 @LIBGO_IS_LINUX_TRUE@syscall_os_file = 
 go_base_syscall_files = \
 	go/syscall/env_unix.go \
 	go/syscall/syscall_errno.go \
 	go/syscall/libcall_support.go \
-	go/syscall/libcall_posix.go \
+	$(syscall_posix) \
+	$(syscall_socket) \
 	go/syscall/msan0.go \
-	go/syscall/socket.go \
-	go/syscall/sockcmsg_unix.go \
 	go/syscall/str.go \
 	go/syscall/syscall.go \
 	$(syscall_sockcmsg_file) \
@@ -2149,6 +2213,12 @@ go_syscall_test_files = \
 
 # os_lib_inotify_lo = os/inotify.lo
 @LIBGO_IS_LINUX_TRUE@os_lib_inotify_lo = 
+@LIBGO_IS_HERMIT_FALSE@os_lib_terminal = exp/terminal.lo net.lo
+@LIBGO_IS_HERMIT_TRUE@os_lib_terminal = 
+@LIBGO_IS_HERMIT_FALSE@os_lib_signal = os/signal.lo
+@LIBGO_IS_HERMIT_TRUE@os_lib_signal = 
+@LIBGO_IS_HERMIT_FALSE@os_lib_other_exec = os/exec.lo net/http/cgi.lo net/http/fcgi.lo log/syslog.lo log/syslog/syslog_c.lo syscall/wait.lo
+@LIBGO_IS_HERMIT_TRUE@os_lib_other_exec = os/exec.lo
 libgo_go_objs = \
 	bufio.lo \
 	bytes.lo \
@@ -2166,7 +2236,6 @@ libgo_go_objs = \
 	log.lo \
 	math.lo \
 	mime.lo \
-	net.lo \
 	os.lo \
 	path.lo \
 	reflect-go.lo \
@@ -2181,7 +2250,6 @@ libgo_go_objs = \
 	syscall.lo \
 	syscall/errno.lo \
 	syscall/signame.lo \
-	syscall/wait.lo \
 	testing.lo \
 	time-go.lo \
 	unicode.lo \
@@ -2233,7 +2301,7 @@ libgo_go_objs = \
 	encoding/pem.lo \
 	encoding/xml.lo \
 	exp/proxy.lo \
-	exp/terminal.lo \
+	$(os_lib_terminal) \
 	html/template.lo \
 	go/ast.lo \
 	go/build.lo \
@@ -2252,9 +2320,7 @@ libgo_go_objs = \
 	hash/crc32.lo \
 	hash/crc64.lo \
 	hash/fnv.lo \
-	net/http/cgi.lo \
 	net/http/cookiejar.lo \
-	net/http/fcgi.lo \
 	net/http/httptest.lo \
 	net/http/httputil.lo \
 	net/http/internal.lo \
@@ -2274,8 +2340,6 @@ libgo_go_objs = \
 	internal/testenv.lo \
 	internal/trace.lo \
 	io/ioutil.lo \
-	log/syslog.lo \
-	log/syslog/syslog_c.lo \
 	math/big.lo \
 	math/cmplx.lo \
 	math/rand.lo \
@@ -2290,9 +2354,9 @@ libgo_go_objs = \
 	net/url.lo \
 	old/regexp.lo \
 	old/template.lo \
-	os/exec.lo \
+	$(os_lib_other_exec) \
 	$(os_lib_inotify_lo) \
-	os/signal.lo \
+	$(os_lib_signal) \
 	os/user.lo \
 	path/filepath.lo \
 	regexp/syntax.lo \
@@ -2313,9 +2377,13 @@ libgo_go_objs = \
 libgo_ldflags = \
 	-version-info $(libtool_VERSION) $(PTHREAD_CFLAGS) $(AM_LDFLAGS)
 
-libgo_libadd = \
-	$(libgo_go_objs) ../libbacktrace/libbacktrace.la \
-	$(LIBATOMIC) $(LIBFFI) $(PTHREAD_LIBS) $(MATH_LIBS) $(NET_LIBS)
+@LIBGO_IS_HERMIT_FALSE@libgo_libadd = \
+@LIBGO_IS_HERMIT_FALSE@	$(libgo_go_objs) ../libbacktrace/libbacktrace.la \
+@LIBGO_IS_HERMIT_FALSE@	$(LIBATOMIC) $(LIBFFI) $(PTHREAD_LIBS) $(MATH_LIBS) $(NET_LIBS)
+
+@LIBGO_IS_HERMIT_TRUE@libgo_libadd = \
+@LIBGO_IS_HERMIT_TRUE@	       $(libgo_go_objs) \
+@LIBGO_IS_HERMIT_TRUE@	       $(LIBATOMIC) $(LIBFFI) $(PTHREAD_LIBS) $(MATH_LIBS) $(NET_LIBS)
 
 libgo_la_SOURCES = $(runtime_files)
 libgo_la_LDFLAGS = $(libgo_ldflags)
@@ -2337,8 +2405,14 @@ libgolibbegin_a_SOURCES = \
 	runtime/go-libmain.c
 
 libgolibbegin_a_CFLAGS = $(AM_CFLAGS) -fPIC
+
+#if LIBGO_IS_HERMIT
+#libnetgo_a_SOURCES =
+#libnetgo_a_LIBADD =
+#else
 libnetgo_a_SOURCES = $(go_netgo_files)
 libnetgo_a_LIBADD = netgo.o
+#endif
 LTLDFLAGS = $(shell $(SHELL) $(top_srcdir)/../libtool-ldflags $(LDFLAGS))
 AM_GOCFLAGS = $(STRINGOPS_FLAG) $(GO_SPLIT_STACK)
 GOCOMPILE = $(GOC) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_GOCFLAGS) $(GOCFLAGS)
@@ -3543,19 +3617,19 @@ getncpu-none.lo: runtime/getncpu-none.c
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getncpu-none.lo `test -f 'runtime/getncpu-none.c' || echo '$(srcdir)/'`runtime/getncpu-none.c
 
-getncpu-bsd.lo: runtime/getncpu-bsd.c
-@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT getncpu-bsd.lo -MD -MP -MF $(DEPDIR)/getncpu-bsd.Tpo -c -o getncpu-bsd.lo `test -f 'runtime/getncpu-bsd.c' || echo '$(srcdir)/'`runtime/getncpu-bsd.c
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/getncpu-bsd.Tpo $(DEPDIR)/getncpu-bsd.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='runtime/getncpu-bsd.c' object='getncpu-bsd.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getncpu-bsd.lo `test -f 'runtime/getncpu-bsd.c' || echo '$(srcdir)/'`runtime/getncpu-bsd.c
-
 getncpu-solaris.lo: runtime/getncpu-solaris.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT getncpu-solaris.lo -MD -MP -MF $(DEPDIR)/getncpu-solaris.Tpo -c -o getncpu-solaris.lo `test -f 'runtime/getncpu-solaris.c' || echo '$(srcdir)/'`runtime/getncpu-solaris.c
 @am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/getncpu-solaris.Tpo $(DEPDIR)/getncpu-solaris.Plo
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='runtime/getncpu-solaris.c' object='getncpu-solaris.lo' libtool=yes @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getncpu-solaris.lo `test -f 'runtime/getncpu-solaris.c' || echo '$(srcdir)/'`runtime/getncpu-solaris.c
+
+getncpu-bsd.lo: runtime/getncpu-bsd.c
+@am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT getncpu-bsd.lo -MD -MP -MF $(DEPDIR)/getncpu-bsd.Tpo -c -o getncpu-bsd.lo `test -f 'runtime/getncpu-bsd.c' || echo '$(srcdir)/'`runtime/getncpu-bsd.c
+@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/getncpu-bsd.Tpo $(DEPDIR)/getncpu-bsd.Plo
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='runtime/getncpu-bsd.c' object='getncpu-bsd.lo' libtool=yes @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -c -o getncpu-bsd.lo `test -f 'runtime/getncpu-bsd.c' || echo '$(srcdir)/'`runtime/getncpu-bsd.c
 
 getncpu-irix.lo: runtime/getncpu-irix.c
 @am__fastdepCC_TRUE@	$(LIBTOOL)  --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS) -MT getncpu-irix.lo -MD -MP -MF $(DEPDIR)/getncpu-irix.Tpo -c -o getncpu-irix.lo `test -f 'runtime/getncpu-irix.c' || echo '$(srcdir)/'`runtime/getncpu-irix.c
@@ -4781,10 +4855,14 @@ s-syscall_arch: Makefile
 	$(SHELL) $(srcdir)/mvifdiff.sh syscall_arch.go.tmp syscall_arch.go
 	$(STAMP) $@
 
+# TODO: sed commands are bad hacks to remove wrong data types
 sysinfo.go: s-sysinfo; @true
 s-sysinfo: $(srcdir)/mksysinfo.sh config.h
 	CC="$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(OSCFLAGS) -O" $(SHELL) $(srcdir)/mksysinfo.sh
 	$(SHELL) $(srcdir)/mvifdiff.sh tmp-sysinfo.go sysinfo.go
+	sed -ie '/type _dirent _dirent/d' sysinfo.go
+	sed -ie '/type Dirent _dirent/d' sysinfo.go
+	sed -ie '/type _hostent _hostent/d' sysinfo.go
 	$(STAMP) $@
 
 # The epoll struct has an embedded union and is packed on x86_64,

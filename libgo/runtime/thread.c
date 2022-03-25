@@ -136,6 +136,7 @@ __sync_add_and_fetch_8 (uint64* ptr, uint64 add)
 uintptr
 runtime_memlimit(void)
 {
+#ifndef __hermit__
 	struct rlimit rl;
 	uintptr used;
 
@@ -158,4 +159,7 @@ runtime_memlimit(void)
 		return 0;
 
 	return rl.rlim_cur - used;
+#else
+	return (128<<20);
+#endif
 }

@@ -53,8 +53,10 @@ cat > sysinfo.c <<EOF
 #include <netinet/if_ether.h>
 #endif
 #include <signal.h>
+#ifndef __hermit__
 #include <sys/ioctl.h>
 #include <termios.h>
+#endif
 #if defined(HAVE_SYSCALL_H)
 #include <syscall.h>
 #endif
@@ -83,7 +85,9 @@ cat > sysinfo.c <<EOF
 #include <sys/time.h>
 #include <sys/times.h>
 #include <sys/wait.h>
+#ifndef __hermit__
 #include <sys/un.h>
+#endif
 #if defined(HAVE_SYS_USER_H)
 #include <sys/user.h>
 #endif
@@ -168,6 +172,10 @@ cat > sysinfo.c <<EOF
    expressions too complex for -fdump-go-spec to handle.  These are
    handled specially below.  */
 enum {
+/* add for HermitCore a dummy value */
+#ifdef __hermit__
+  HERMIT_val = 0,
+#else
 #ifdef TIOCGWINSZ
   TIOCGWINSZ_val = TIOCGWINSZ,
 #endif
@@ -267,6 +275,7 @@ enum {
 #ifdef NLA_HDRLEN
   NLA_HDRLEN_val = NLA_HDRLEN,
 #endif
+#endif
 
 };
 EOF
@@ -276,6 +285,17 @@ ${CC} -fdump-go-spec=gen-sysinfo.go -std=gnu99 -S -o sysinfo.s sysinfo.c
 echo 'package syscall' > ${OUT}
 echo 'import "unsafe"' >> ${OUT}
 echo 'type _ unsafe.Pointer' >> ${OUT}
+
+#set +e
+#
+# NO_SYS
+#nosys=`grep '^const _NO_SYS' gen-sysinfo.go`
+#if test "$nosys" != ""; then
+#  grep '^const _NO_SYS' gen-sysinfo.go | \
+#    sed -e 's/^\(const \)_\(_NO_SYS[^= ]*\)\(.*\)$/\1\2 = _\2/' >> ${OUT}
+#fi
+#
+#set -e
 
 # Get all the consts and types, skipping ones which could not be
 # represented in Go and ones which we need to rewrite.  We also skip
@@ -774,11 +794,14 @@ echo $iovec | \
       -e 's/iov_len *[a-zA-Z0-9_]*/Len Iovec_len_t/' \
     >> ${OUT}
 
+set +e
+
 # The msghdr struct.
 msghdr=`grep '^type _msghdr ' gen-sysinfo.go`
-msghdr_controllen=`echo $msghdr | sed -n -e 's/^.*msg_controllen \([^ ]*\);.*$/\1/p'`
-echo "type Msghdr_controllen_t $msghdr_controllen" >> ${OUT}
-echo $msghdr | \
+if test "$msghdr" != ""; then
+  msghdr_controllen=`echo $msghdr | sed -n -e 's/^.*msg_controllen \([^ ]*\);.*$/\1/p'`
+  echo "type Msghdr_controllen_t $msghdr_controllen" >> ${OUT}
+  echo $msghdr | \
     sed -e 's/_msghdr/Msghdr/' \
       -e 's/msg_name/Name/' \
       -e 's/msg_namelen/Namelen/' \
@@ -789,6 +812,7 @@ echo $msghdr | \
       -e 's/msg_controllen *[a-zA-Z0-9_]*/Controllen Msghdr_controllen_t/' \
       -e 's/msg_flags/Flags/' \
     >> ${OUT}
+fi
 
 # The MSG_ flags for Msghdr.
 grep '^const _MSG_' gen-sysinfo.go | \
@@ -807,6 +831,8 @@ if test -n "$cmsghdr"; then
         -e 's/\[\]/[0]/' \
       >> ${OUT}
 fi
+
+set -e
 
 # The SCM_ flags for Cmsghdr.
 grep '^const _SCM_' gen-sysinfo.go | \

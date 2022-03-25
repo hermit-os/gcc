@@ -16,7 +16,11 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <semaphore.h>
+#ifdef __hermit__
+#include <sys/ucontext.h>
+#else
 #include <ucontext.h>
+#endif
 
 #ifdef HAVE_SYS_MMAN_H
 #include <sys/mman.h>

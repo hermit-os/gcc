@@ -3,14 +3,31 @@
 // license that can be found in the LICENSE file.
 
 // +build solaris
+// +build hermit
 
 #include "config.h"
 
+#include <unistd.h>
+#include <string.h>
+#include <time.h>
 #include <errno.h>
 #include <sys/times.h>
 #include <sys/types.h>
-#include <unistd.h>
 #include <fcntl.h>
+
+#ifdef __hermit__
+#include <netinet/in.h>
+#include <sys/socket.h>
+#include <sys/time.h>
+#include <netdb.h>
+
+int reschedule(void);
+
+#define IPC_PORT	4711
+#define GETFD(x)	(x & ~LWIP_FD_BIT)
+#else
+#define GETFD(x)	x
+#endif
 
 #ifdef HAVE_SYS_SELECT_H
 #include <sys/select.h>
@@ -22,6 +39,7 @@
 static Lock selectlock;
 static int rdwake;
 static int wrwake;
+
 static fd_set fds;
 static PollDesc **data;
 static int allocated;
@@ -29,18 +47,74 @@ static int allocated;
 void
 runtime_netpollinit(void)
 {
+#ifdef __hermit__
+	struct sockaddr_in sa_server;
+	struct sockaddr_in sa_client;
+	struct sockaddr_in sa_dummy;
+	struct in_addr addr_local;
+	struct in_addr addr_any;
+	socklen_t length;
+	int server;
+	int reuse = 1;
+#else
 	int p[2];
+#endif
 	int fl;
 
 	FD_ZERO(&fds);
+#ifdef __hermit__
+	allocated = MEMP_NUM_NETCONN;
+#else
 	allocated = 128;
+#endif
 	data = runtime_mallocgc(allocated * sizeof(PollDesc *), 0,
 				FlagNoScan|FlagNoProfiling|FlagNoInvokeGC);
 
+#ifdef __hermit__
+	// HermitCore doesn't support pipes
+	// => create a self-connection via sockets, at first the server side
+	server = socket(PF_INET, SOCK_STREAM, 0);
+	if (server < 0)
+		runtime_throw("netpollinit: socket failed");
+
+	if (setsockopt(server, SOL_SOCKET, SO_REUSEADDR, (const char*)&reuse, sizeof(reuse)) < 0)
+		runtime_throw("netpollinit: setsockopt failed");
+
+	memset((char *) &sa_server, 0x00, sizeof(sa_server));
+	sa_server.sin_family = AF_INET;
+	sa_server.sin_port = htons(IPC_PORT);
+	addr_any.s_addr = INADDR_ANY;
+	sa_server.sin_addr = addr_any;
+
+	if (bind(server, (struct sockaddr *) &sa_server, sizeof(sa_server)) < 0)
+		runtime_throw("netpollinit: bind failed");
+
+	if (listen(server, 2) != 0)
+		runtime_throw("netpollinit: listen failed");
+
+	// now the client side
+	wrwake = socket(PF_INET, SOCK_STREAM, 0);
+	if (wrwake < 0)
+		runtime_throw("netpollinit: socket failed");
+
+	sa_client.sin_family = AF_INET;
+	sa_client.sin_port = htons(IPC_PORT);
+	addr_local.s_addr = inet_addr("127.0.0.1");
+	sa_client.sin_addr = addr_local;
+
+	if (connect(wrwake, (struct sockaddr *) &sa_client, sizeof(sa_client)) < 0)
+		runtime_throw("netpollinit: connect failed");
+
+	if ((rdwake = accept(server, (struct sockaddr *) &sa_dummy, &length)) < 0)
+		runtime_throw("netpollinit: accept failed");
+
+	close(server);
+#else
 	if(pipe(p) < 0)
 		runtime_throw("netpollinit: failed to create pipe");
 	rdwake = p[0];
 	wrwake = p[1];
+#endif
 
 	fl = fcntl(rdwake, F_GETFL);
 	if(fl < 0)
@@ -48,7 +122,9 @@ runtime_netpollinit(void)
 	fl |= O_NONBLOCK;
 	if(fcntl(rdwake, F_SETFL, fl))
 		 runtime_throw("netpollinit: fcntl failed");
+#ifndef __hermit__
 	fcntl(rdwake, F_SETFD, FD_CLOEXEC);
+#endif
 
 	fl = fcntl(wrwake, F_GETFL);
 	if(fl < 0)
@@ -56,7 +132,9 @@ runtime_netpollinit(void)
 	fl |= O_NONBLOCK;
 	if(fcntl(wrwake, F_SETFL, fl))
 		 runtime_throw("netpollinit: fcntl failed");
+#ifndef __hermit__
 	fcntl(wrwake, F_SETFD, FD_CLOEXEC);
+#endif
 
 	FD_SET(rdwake, &fds);
 }
@@ -68,7 +146,15 @@ runtime_netpollopen(uintptr fd, PollDesc *pd)
 
 	runtime_lock(&selectlock);
 
-	if((int)fd >= allocated) {
+#ifdef __hermit__
+	// HermitCore has a fix limit of socket ids
+	// => no resize possible
+	if((int)GETFD(fd) >= allocated) {
+		runtime_unlock(&selectlock);
+		return -1;
+	}
+#else
+	if((int)GETFD(fd) >= allocated) {
 		int c;
 		PollDesc **n;
 
@@ -76,7 +162,7 @@ runtime_netpollopen(uintptr fd, PollDesc *pd)
 
 		runtime_unlock(&selectlock);
 
-		while((int)fd >= c)
+		while((int)GETFD(fd) >= c)
 			c *= 2;
 		n = runtime_mallocgc(c * sizeof(PollDesc *), 0,
 				     FlagNoScan|FlagNoProfiling|FlagNoInvokeGC);
@@ -89,8 +175,9 @@ runtime_netpollopen(uintptr fd, PollDesc *pd)
 			data = n;
 		}
 	}
+#endif
 	FD_SET(fd, &fds);
-	data[fd] = pd;
+	data[GETFD(fd)] = pd;
 
 	runtime_unlock(&selectlock);
 
@@ -108,7 +195,7 @@ runtime_netpollclose(uintptr fd)
 	runtime_lock(&selectlock);
 
 	FD_CLR(fd, &fds);
-	data[fd] = nil;
+	data[GETFD(fd)] = nil;
 
 	runtime_unlock(&selectlock);
 
@@ -220,7 +307,7 @@ runtime_netpoll(bool block)
 			mode = 'r' + 'w';
 			--c;
 		}
-		if(i == rdwake && mode != 0) {
+		if(i == GETFD(rdwake) && mode != 0) {
 			while(read(rdwake, &b, sizeof b) > 0)
 				;
 			continue;
@@ -235,6 +322,11 @@ runtime_netpoll(bool block)
 				runtime_netpollready(&gp, pd, mode);
 		}
 	}
+#ifdef __hermit__
+	// on a tickless system (e.g. HermitCore), we have to reschedule
+	// to consume the message
+	//reschedule();
+#endif
 	if(block && gp == nil)
 		goto retry;
 

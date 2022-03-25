@@ -14,8 +14,16 @@
 #include <sys/select.h>
 #endif
 
+#ifdef __hermit__
+#pragma GCC diagnostic ignored "-Wcast-qual"
+#endif
+
 #if defined (__i386__) || defined (__x86_64__)
 #include <xmmintrin.h>
+#endif
+
+#ifdef __hermit__
+void sys_usleep(unsigned long usecs);
 #endif
 
 #include "runtime.h"
@@ -48,9 +56,13 @@ runtime_osyield (void)
 void
 runtime_usleep (uint32 us)
 {
+#ifdef __hermit__
+  sys_usleep(us);
+#else
   struct timeval tv;
 
   tv.tv_sec = us / 1000000;
   tv.tv_usec = us % 1000000;
   select (0, NULL, NULL, NULL, &tv);
+#endif
 }
