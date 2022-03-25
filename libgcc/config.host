@@ -327,7 +327,13 @@ i[34567]86-*-mingw* | x86_64-*-mingw*)
 esac
 
 case ${host} in
-aarch64*-*-elf | aarch64*-*-rtems*)
+x86_64-*-hermit*)
+	extra_parts="$extra_parts crtbegin.o crtend.o crti.o crtn.o"
+	extra_parts="$extra_parts crtprec32.o crtprec64.o crtprec80.o crtfastmath.o"
+	tmake_file="${tmake_file} i386/t-crtpc t-crtfm i386/t-crtstuff t-tls t-dfprules"
+	tm_file="${tm_file} i386/elf-lib.h"
+	;;
+aarch64*-*-elf | aarch64*-*-rtems* | aarch64*-*-hermit)
 	extra_parts="$extra_parts crtbegin.o crtend.o crti.o crtn.o"
 	extra_parts="$extra_parts crtfastmath.o"
 	tmake_file="${tmake_file} ${cpu_type}/t-aarch64"
@@ -1377,6 +1383,7 @@ i[34567]86-*-darwin* | x86_64-*-darwin* | \
   i[34567]86-*-mingw* | x86_64-*-mingw* | \
   i[34567]86-*-dragonfly* | x86_64-*-dragonfly* | \
   i[34567]86-*-freebsd* | x86_64-*-freebsd* | \
+  i[34567]86-*-hermit* | x86_64-*-hermit* | \
   i[34567]86-*-openbsd* | x86_64-*-openbsd*)
   	tmake_file="${tmake_file} t-softfp-tf"
 	if test "${host_address}" = 32; then
