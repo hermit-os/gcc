@@ -2,7 +2,7 @@
  * x86_64-hermit-gcc toolchain */
 #undef LIB_SPEC
 #define LIB_SPEC "%{!z:-z max-page-size=0x1000 -z common-page-size=0x1000} \
-		  %{pthread:-lpthread} -lc -lg -lm -lhermit"
+		  %{pthread:-lpthread} -lc -lg -lm"
 
 /* The svr4 ABI for the i386 says that records and unions are returned
  * in memory.  In the 64bit compilation we will turn this flag off in
