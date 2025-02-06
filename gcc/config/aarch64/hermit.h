@@ -51,6 +51,6 @@
 #endif
 
 #undef LIB_SPEC
-#define LIB_SPEC "%{pthread:-lpthread} -lc -lg -lm"
+#define LIB_SPEC "%{pthread:-lpthread} -lc -lg"
 
 #endif /* GCC_AARCH64_HERMIT_H */
