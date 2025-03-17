@@ -62,8 +62,9 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-@GOC_IS_LLGO_TRUE@am__append_1 = libgo-llgo.la libgobegin-llgo.a
-@GOC_IS_LLGO_FALSE@am__append_2 = libgo.la libgobegin.a
+@LIBGO_IS_HERMIT_TRUE@am__append_1 = -fPIE -pie
+@GOC_IS_LLGO_TRUE@am__append_2 = libgo-llgo.la libgobegin-llgo.a
+@GOC_IS_LLGO_FALSE@am__append_3 = libgo.la libgobegin.a
 subdir = .
 DIST_COMMON = README $(srcdir)/Makefile.in $(srcdir)/Makefile.am \
 	$(top_srcdir)/configure $(am__configure_deps) \
@@ -2414,7 +2415,7 @@ libnetgo_a_SOURCES = $(go_netgo_files)
 libnetgo_a_LIBADD = netgo.o
 #endif
 LTLDFLAGS = $(shell $(SHELL) $(top_srcdir)/../libtool-ldflags $(LDFLAGS))
-AM_GOCFLAGS = $(STRINGOPS_FLAG) $(GO_SPLIT_STACK)
+AM_GOCFLAGS = $(STRINGOPS_FLAG) $(GO_SPLIT_STACK) $(am__append_1)
 GOCOMPILE = $(GOC) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_GOCFLAGS) $(GOCFLAGS)
 LTGOCOMPILE = $(LIBTOOL) --tag GO --mode=compile $(GOC) $(INCLUDES) \
 	$(AM_GOCFLAGS) $(GOCFLAGS)
@@ -2494,7 +2495,7 @@ CHECK_DEPS = $(toolexeclibgo_DATA) $(toolexeclibgoarchive_DATA) \
 	$(toolexeclibgorpc_DATA) $(toolexeclibgoruntime_DATA) \
 	$(toolexeclibgosync_DATA) $(toolexeclibgotesting_DATA) \
 	$(toolexeclibgotext_DATA) $(toolexeclibgotexttemplate_DATA) \
-	$(toolexeclibgounicode_DATA) $(am__append_1) $(am__append_2)
+	$(toolexeclibgounicode_DATA) $(am__append_2) $(am__append_3)
 # At least for now, we need -static-libgo for this test, because
 # otherwise we can't get the line numbers.
 # Also use -fno-inline to get better results from the memory profiler.
