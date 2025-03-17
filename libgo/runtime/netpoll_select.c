@@ -24,9 +24,6 @@
 int reschedule(void);
 
 #define IPC_PORT	4711
-#define GETFD(x)	(x & ~LWIP_FD_BIT)
-#else
-#define GETFD(x)	x
 #endif
 
 #ifdef HAVE_SYS_SELECT_H
@@ -145,12 +142,12 @@ runtime_netpollopen(uintptr fd, PollDesc *pd)
 #ifdef __hermit__
 	// HermitCore has a fix limit of socket ids
 	// => no resize possible
-	if((int)GETFD(fd) >= allocated) {
+	if((int)fd >= allocated) {
 		runtime_unlock(&selectlock);
 		return -1;
 	}
 #else
-	if((int)GETFD(fd) >= allocated) {
+	if((int)fd >= allocated) {
 		int c;
 		PollDesc **n;
 
@@ -158,7 +155,7 @@ runtime_netpollopen(uintptr fd, PollDesc *pd)
 
 		runtime_unlock(&selectlock);
 
-		while((int)GETFD(fd) >= c)
+		while((int)fd >= c)
 			c *= 2;
 		n = runtime_mallocgc(c * sizeof(PollDesc *), 0,
 				     FlagNoScan|FlagNoProfiling|FlagNoInvokeGC);
@@ -173,7 +170,7 @@ runtime_netpollopen(uintptr fd, PollDesc *pd)
 	}
 #endif
 	FD_SET(fd, &fds);
-	data[GETFD(fd)] = pd;
+	data[fd] = pd;
 
 	runtime_unlock(&selectlock);
 
@@ -191,7 +188,7 @@ runtime_netpollclose(uintptr fd)
 	runtime_lock(&selectlock);
 
 	FD_CLR(fd, &fds);
-	data[GETFD(fd)] = nil;
+	data[fd] = nil;
 
 	runtime_unlock(&selectlock);
 
@@ -303,7 +300,7 @@ runtime_netpoll(bool block)
 			mode = 'r' + 'w';
 			--c;
 		}
-		if(i == GETFD(rdwake) && mode != 0) {
+		if(i == rdwake && mode != 0) {
 			while(read(rdwake, &b, sizeof b) > 0)
 				;
 			continue;
