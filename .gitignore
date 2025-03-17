@@ -2,6 +2,9 @@
 *.patch
 *.orig
 *.rej
+isl
+builddir
+builddir-bootstrap
 
 *~
 .#*
