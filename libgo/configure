@@ -14854,7 +14854,7 @@ fi
 done
 
 
- if test "$ac_cv_header_sys_mman_h" = yes; then
+ if test "$ac_cv_header_sys_mman_h" = yes && test $is_hermit = no; then
   HAVE_SYS_MMAN_H_TRUE=
   HAVE_SYS_MMAN_H_FALSE='#'
 else
