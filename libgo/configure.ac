@@ -540,7 +540,7 @@ if test $libgo_cv_c_ustat_h = yes; then
     [Define to 1 if you have the <ustat.h> header file and it works.])
 fi
 
-AM_CONDITIONAL(HAVE_SYS_MMAN_H, test "$ac_cv_header_sys_mman_h" = yes)
+AM_CONDITIONAL(HAVE_SYS_MMAN_H, test "$ac_cv_header_sys_mman_h" = yes && test $is_hermit = no)
 
 AC_CHECK_FUNCS(strerror_r strsignal wait4 mincore setenv unsetenv dl_iterate_phdr)
 AM_CONDITIONAL(HAVE_STRERROR_R, test "$ac_cv_func_strerror_r" = yes)
