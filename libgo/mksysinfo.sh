@@ -745,7 +745,7 @@ grep '^const _DT_' gen-sysinfo.go |
   sed -e 's/^\(const \)_\(DT_[^= ]*\)\(.*\)$/\1\2 = _\2/' >> ${OUT}
 
 # The rusage struct.
-rusage=`grep '^type _rusage struct' gen-sysinfo.go`
+rusage=`grep '^type _rusage struct' gen-sysinfo.go || true`
 if test "$rusage" != ""; then
   # Remove anonymous unions from GNU/Linux <bits/resource.h>.
   rusage=`echo $rusage | sed -e 's/Godump_[0-9][0-9]* struct {\([^}]*\)};/\1/g'`
