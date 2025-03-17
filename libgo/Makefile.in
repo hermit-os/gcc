@@ -2419,7 +2419,7 @@ libnetgo_a_SOURCES = $(go_netgo_files)
 libnetgo_a_LIBADD = netgo.o
 #endif
 LTLDFLAGS = $(shell $(SHELL) $(top_srcdir)/../libtool-ldflags $(LDFLAGS))
-AM_GOCFLAGS = $(STRINGOPS_FLAG) $(GO_SPLIT_STACK)
+AM_GOCFLAGS = $(STRINGOPS_FLAG) $(GO_SPLIT_STACK) -fPIE -pie
 GOCOMPILE = $(GOC) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_GOCFLAGS) $(GOCFLAGS)
 LTGOCOMPILE = $(LIBTOOL) --tag GO --mode=compile $(GOC) $(INCLUDES) \
 	$(AM_GOCFLAGS) $(GOCFLAGS)
