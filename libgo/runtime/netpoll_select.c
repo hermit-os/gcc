@@ -59,11 +59,7 @@ runtime_netpollinit(void)
 	int fl;
 
 	FD_ZERO(&fds);
-#ifdef __hermit__
-	allocated = MEMP_NUM_NETCONN;
-#else
 	allocated = 128;
-#endif
 	data = runtime_mallocgc(allocated * sizeof(PollDesc *), 0,
 				FlagNoScan|FlagNoProfiling|FlagNoInvokeGC);
 
