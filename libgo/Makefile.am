@@ -850,7 +850,7 @@ if LIBGO_IS_HERMIT
 go_net_sock =   go/net/iprawsock_hermit.go \
 		go/net/unixsock_hermit.go \
 		go/net/udpsock_hermit.go \
-		go/net/ipsock_hermit.go
+		go/net/ipsock_posix.go
 else
 go_net_sock =   go/net/iprawsock_posix.go \
 		go/net/unixsock_posix.go \
