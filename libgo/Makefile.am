@@ -820,11 +820,7 @@ else
 if LIBGO_IS_FREEBSD
 go_net_cloexec_file = go/net/sock_cloexec.go go/net/hook_cloexec.go
 else
-if LIBGO_IS_HERMIT
-go_net_cloexec_file = go/net/sys_cloexec_hermit.go
-else
 go_net_cloexec_file = go/net/sys_cloexec.go
-endif
 endif
 endif
 
