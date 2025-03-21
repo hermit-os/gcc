@@ -1260,7 +1260,7 @@ if LIBGO_IS_SOLARIS
 archive_tar_atim_file = go/archive/tar/stat_atim.go
 endif
 if LIBGO_IS_HERMIT
-archive_tar_atim_file = go/archive/tar/stat_atim_hermit.go
+archive_tar_atim_file = go/archive/tar/stat_atim.go
 endif
 if LIBGO_IS_DARWIN
 archive_tar_atim_file = go/archive/tar/stat_atimespec.go

@@ -1363,7 +1363,7 @@ go_unicode_files = \
 
 @LIBGO_IS_DARWIN_TRUE@archive_tar_atim_file = go/archive/tar/stat_atimespec.go
 @LIBGO_IS_FREEBSD_TRUE@archive_tar_atim_file = go/archive/tar/stat_atimespec.go
-@LIBGO_IS_HERMIT_TRUE@archive_tar_atim_file = go/archive/tar/stat_atim_hermit.go
+@LIBGO_IS_HERMIT_TRUE@archive_tar_atim_file = go/archive/tar/stat_atim.go
 @LIBGO_IS_LINUX_TRUE@archive_tar_atim_file = go/archive/tar/stat_atim.go
 @LIBGO_IS_NETBSD_TRUE@archive_tar_atim_file = go/archive/tar/stat_atimespec.go
 @LIBGO_IS_OPENBSD_TRUE@archive_tar_atim_file = go/archive/tar/stat_atim.go
