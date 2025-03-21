@@ -859,7 +859,7 @@ go_net_sock =   go/net/iprawsock_posix.go \
 endif
 
 if LIBGO_IS_HERMIT
-go_net_other = go/net/fd_hermit.go go/net/sock_hermit.go go/net/tcpsock_hermit.go go/net/file_stub.go go/net/dial_hermit.go go/net/lookup_stub.go go/net/fd_poll_runtime.go
+go_net_other = go/net/fd_hermit.go go/net/sock_hermit.go go/net/tcpsock_posix.go go/net/file_stub.go go/net/dial_hermit.go go/net/lookup_stub.go go/net/fd_poll_runtime.go
 else
 go_net_other = go/net/fd_unix.go go/net/sock_posix.go go/net/tcpsock_posix.go go/net/file_unix.go go/net/conf.go go/net/dial.go go/net/dnsclient_unix.go go/net/lookup_unix.go go/net/sockopt_posix.go go/net/tcpsockopt_posix.go go/net/fd_poll_runtime.go
 endif
