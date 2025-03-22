@@ -1251,7 +1251,7 @@ aarch64*-*-freebsd*)
 	tm_defines="${tm_defines}  TARGET_DEFAULT_ASYNC_UNWIND_TABLES=1"
 	;;
 aarch64*-*-hermit)
-	tm_file="${tm_file} dbxelf.h elfos.h newlib-stdint.h"
+	tm_file="${tm_file} elfos.h newlib-stdint.h"
 	tm_file="${tm_file} aarch64/aarch64-elf.h"
 	tm_file="${tm_file} hermit.h aarch64/hermit.h"
 	tmake_file="${tmake_file} aarch64/t-aarch64"
@@ -1992,7 +1992,7 @@ x86_64-*-netbsd*)
 	extra_options="${extra_options} netbsd.opt netbsd-elf.opt"
 	;;
 x86_64-*-hermit*)
-	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h newlib-stdint.h i386/i386elf.h i386/x86-64.h hermit.h i386/hermit.h"
+	tm_file="${tm_file} i386/unix.h i386/att.h elfos.h newlib-stdint.h i386/i386elf.h i386/x86-64.h hermit.h i386/hermit.h"
 	extra_options="${extra_options} hermit.opt"
 	;;
 i[34567]86-*-openbsd2.*|i[34567]86-*openbsd3.[0123])
