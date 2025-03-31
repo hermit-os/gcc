@@ -2540,9 +2540,14 @@ riscv*-*-linux*)
 	gcc_cv_initfini_array=yes
 	with_tls=${with_tls:-trad}
 	;;
-riscv*-*-elf* | riscv*-*-rtems*)
+riscv*-*-elf* | riscv*-*-rtems* | riscv*-*-hermit*)
 	tm_file="elfos.h newlib-stdint.h ${tm_file} riscv/elf.h"
 	case ${target} in
+	*-*-hermit*)
+	  tm_file="${tm_file} riscv/hermit.h hermit.h"
+	  tmake_file="${tmake_file} riscv/t-hermit"
+	  extra_options="${extra_options} hermit.opt"
+	  ;;
 	*-*-rtems*)
 	  tm_file="${tm_file} riscv/rtems.h rtems.h"
 	  tmake_file="${tmake_file} riscv/t-rtems"
@@ -2583,7 +2588,6 @@ riscv*-*-freebsd*)
 	gcc_cv_initfini_array=yes
 	with_tls=${with_tls:-trad}
 	;;
-
 loongarch*-*-linux*)
 	tm_file="elfos.h gnu-user.h linux.h linux-android.h glibc-stdint.h ${tm_file}"
 	case ${target} in
