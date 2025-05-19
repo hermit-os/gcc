@@ -738,6 +738,7 @@ case ${target} in
       exit 1
       ;;
   esac
+  tmake_file="${tmake_file} t-hermit"
   ;;
 *-*-darwin*)
   tmake_file="t-darwin "
