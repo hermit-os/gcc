@@ -304,6 +304,9 @@ case ${host} in
   tmake_file="$tmake_file t-crtstuff-pic t-libgcc-pic t-eh-dw2-dip t-slibgcc t-slibgcc-fuchsia"
   extra_parts="crtbegin.o crtend.o"
   ;;
+*-*-hermit*)
+  tmake_file="$tmake_file t-hermit"
+  ;;
 *-*-linux* | frv-*-*linux* | *-*-kfreebsd*-gnu | *-*-gnu* | *-*-kopensolaris*-gnu | *-*-uclinuxfdpiceabi)
   tmake_file="$tmake_file t-crtstuff-pic t-libgcc-pic t-eh-dw2-dip t-slibgcc t-slibgcc-gld t-slibgcc-elf-ver t-linux"
   extra_parts="crtbegin.o crtbeginS.o crtbeginT.o crtend.o crtendS.o"
