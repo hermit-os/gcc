@@ -20,7 +20,7 @@
   } while(0);
 
 #undef  STARTFILE_SPEC
-#define STARTFILE_SPEC "crt0%O%s crti%O%s crtbegin%O%s"
+#define STARTFILE_SPEC "crt0%O%s crti%O%s %{static:crtbeginT%O%s;shared|static-pie|" PIE_SPEC ":crtbeginS%O%s;:crtbegin%O%s}"
 
 #undef  ENDFILE_SPEC
-#define ENDFILE_SPEC "crtend%O%s crtn%O%s"
+#define ENDFILE_SPEC "%{shared|static-pie|" PIE_SPEC ":crtendS%O%s;:crtend%O%s} crtn%O%s"
