@@ -311,7 +311,7 @@ case ${host} in
   extra_parts="crtbegin.o crtend.o"
   ;;
 *-*-hermit*)
-  tmake_file="$tmake_file t-hermit"
+  tmake_file="$tmake_file t-hermit t-crtstuff-pic t-libgcc-pic"
   extra_parts="crtbegin.o crtend.o crtbeginS.o crtbeginT.o crtendS.o crti.o crtn.o"
   ;;
 *-*-linux* | frv-*-*linux* | *-*-kfreebsd*-gnu | *-*-gnu* | *-*-kopensolaris*-gnu | *-*-uclinuxfdpiceabi)
