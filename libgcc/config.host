@@ -311,7 +311,8 @@ case ${host} in
   extra_parts="crtbegin.o crtend.o"
   ;;
 *-*-hermit*)
-  tmake_file="$tmake_file t-hermit"
+  tmake_file="$tmake_file t-hermit t-crtstuff-pic t-libgcc-pic"
+  extra_parts="crtbegin.o crtend.o crtbeginS.o crtbeginT.o crtendS.o crti.o crtn.o"
   ;;
 *-*-linux* | frv-*-*linux* | *-*-kfreebsd*-gnu | *-*-gnu* | *-*-kopensolaris*-gnu | *-*-uclinuxfdpiceabi)
   tmake_file="$tmake_file t-crtstuff-pic t-libgcc-pic t-eh-dw2-dip t-slibgcc t-slibgcc-gld t-slibgcc-elf-ver t-linux"
@@ -405,13 +406,7 @@ i[34567]86-*-cygwin* | x86_64-*-cygwin*)
 esac
 
 case ${host} in
-x86_64-*-hermit*)
-	extra_parts="$extra_parts crtbegin.o crtend.o crti.o crtn.o"
-	extra_parts="$extra_parts crtprec32.o crtprec64.o crtprec80.o crtfastmath.o"
-	tmake_file="${tmake_file} i386/t-crtpc t-crtfm i386/t-crtstuff t-tls t-dfprules"
-	tm_file="${tm_file} i386/elf-lib.h"
-	;;
-aarch64*-*-elf | aarch64*-*-rtems* | aarch64*-*-hermit)
+aarch64*-*-elf | aarch64*-*-rtems*)
 	extra_parts="$extra_parts crtbegin.o crtend.o crti.o crtn.o"
 	extra_parts="$extra_parts crtfastmath.o"
 	tmake_file="${tmake_file} ${cpu_type}/t-aarch64"
@@ -429,6 +424,15 @@ aarch64*-*-freebsd*)
 	tmake_file="${tmake_file} t-dfprules"
 	md_unwind_def_header=aarch64/aarch64-unwind-def.h
 	md_unwind_header=aarch64/freebsd-unwind.h
+	;;
+aarch64*-*-hermit)
+	extra_parts="$extra_parts crtfastmath.o"
+	tmake_file="${tmake_file} ${cpu_type}/t-aarch64"
+	tmake_file="${tmake_file} ${cpu_type}/t-lse t-slibgcc-libgcc"
+	tmake_file="${tmake_file} ${cpu_type}/t-softfp t-softfp t-crtfm"
+	tmake_file="${tmake_file} t-dfprules"
+	md_unwind_def_header=aarch64/aarch64-unwind-def.h
+	md_unwind_header=aarch64/aarch64-unwind.h
 	;;
 aarch64*-*-netbsd*)
 	extra_parts="$extra_parts crtfastmath.o"
@@ -900,6 +904,11 @@ x86_64-*-cygwin*)
 	# FIXME - dj - t-chkstk used to be in here, need a 64-bit version of that
 	tmake_file="${tmake_file} ${tmake_eh_file} ${tmake_dlldir_file} i386/t-slibgcc-cygming i386/t-cygming i386/t-cygwin t-crtfm t-dfprules i386/t-chkstk"
 	;;
+x86_64-*-hermit*)
+	extra_parts="$extra_parts crtprec32.o crtprec64.o crtprec80.o crtfastmath.o"
+	tmake_file="${tmake_file} i386/t-crtpc t-crtfm i386/t-crtstuff t-tls t-dfprules"
+	tm_file="${tm_file} i386/elf-lib.h"
+	;;
 i[34567]86-*-mingw*)
 	extra_parts="crtbegin.o crtend.o crtfastmath.o"
 	if test x$enable_vtable_verify = xyes; then
@@ -1365,7 +1374,6 @@ riscv*-*-linux*)
 	;;
 riscv*-*-freebsd* | riscv*-*-hermit*)
 	tmake_file="${tmake_file} riscv/t-crtstuff riscv/t-softfp${host_address} t-softfp riscv/t-elf riscv/t-elf${host_address} t-slibgcc-libgcc"
-	extra_parts="$extra_parts crtbegin.o crtend.o crti.o crtn.o crtendS.o crtbeginT.o"
 	;;
 riscv*-*-*)
 	tmake_file="${tmake_file} riscv/t-softfp${host_address} t-softfp riscv/t-elf riscv/t-elf${host_address}"
