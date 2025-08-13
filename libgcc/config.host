@@ -312,7 +312,7 @@ case ${host} in
   ;;
 *-*-hermit*)
   tmake_file="$tmake_file t-hermit"
-  extra_parts="crtbegin.o crtend.o crti.o crtn.o"
+  extra_parts="crtbegin.o crtend.o crtbeginS.o crtbeginT.o crtendS.o crti.o crtn.o"
   ;;
 *-*-linux* | frv-*-*linux* | *-*-kfreebsd*-gnu | *-*-gnu* | *-*-kopensolaris*-gnu | *-*-uclinuxfdpiceabi)
   tmake_file="$tmake_file t-crtstuff-pic t-libgcc-pic t-eh-dw2-dip t-slibgcc t-slibgcc-gld t-slibgcc-elf-ver t-linux"
@@ -1374,7 +1374,6 @@ riscv*-*-linux*)
 	;;
 riscv*-*-freebsd* | riscv*-*-hermit*)
 	tmake_file="${tmake_file} riscv/t-crtstuff riscv/t-softfp${host_address} t-softfp riscv/t-elf riscv/t-elf${host_address} t-slibgcc-libgcc"
-	extra_parts="$extra_parts crtendS.o crtbeginT.o"
 	;;
 riscv*-*-*)
 	tmake_file="${tmake_file} riscv/t-softfp${host_address} t-softfp riscv/t-elf riscv/t-elf${host_address}"
