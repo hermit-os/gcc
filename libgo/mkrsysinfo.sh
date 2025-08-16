@@ -23,7 +23,6 @@ grep -v '^// ' gen-sysinfo.go | \
   grep -v '^type _timespec_t ' | \
   grep -v '^type _timespec ' | \
   grep -v '^type _epoll_' | \
-  grep -v '^type _*locale[_ ]' | \
   grep -v '^type _in6_addr' | \
   grep -v 'sockaddr_in6' | \
   egrep -v '^const _*FLT(64|128)_(NORM_)?MAX' | \

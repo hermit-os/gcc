@@ -8,6 +8,9 @@
 // Only for implementing net package.
 // DO NOT USE DIRECTLY.
 
+//go:build !hermit
+// +build !hermit
+
 package syscall
 
 import "unsafe"

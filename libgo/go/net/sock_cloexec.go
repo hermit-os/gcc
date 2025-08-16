@@ -5,7 +5,7 @@
 // This file implements sysSocket for platforms that provide a fast path for
 // setting SetNonblock and CloseOnExec.
 
-//go:build dragonfly || freebsd || hurd || illumos || linux || netbsd || openbsd
+//go:build dragonfly || freebsd || hurd || illumos || linux || netbsd || openbsd || hermit
 
 package net
 

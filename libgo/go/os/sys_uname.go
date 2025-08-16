@@ -4,7 +4,7 @@
 
 // For systems which only store the hostname in uname (Solaris).
 
-// +build aix hurd solaris irix rtems
+// +build aix hurd solaris irix rtems hermit
 
 package os
 

@@ -296,6 +296,9 @@ proc go-set-goos { } {
 	"*-*-gnu*" {
 	    set goos "hurd"
 	}
+	"*-*-hermit*" {
+	    set goos "hermit"
+	}
 	default {
 	    perror "$target_triplet: unhandled GOOS"
 	    return

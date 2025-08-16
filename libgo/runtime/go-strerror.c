@@ -25,7 +25,7 @@
 
 #include <string.h>
 
-#ifndef HAVE_STRERROR_R
+#if !defined(HAVE_STRERROR_R) && !defined(__hermit__)
 // Provided by go-nosys.c if not provided by libc itself.
 extern int strerror_r (int, char *, size_t);
 #endif
@@ -33,5 +33,10 @@ extern int strerror_r (int, char *, size_t);
 int
 go_strerror (int errnum, char *buf, size_t buflen)
 {
+#ifdef __hermit__
+  strerror_r (errnum, buf, buflen);
+  return 0;
+#else
   return strerror_r (errnum, buf, buflen);
+#endif
 }

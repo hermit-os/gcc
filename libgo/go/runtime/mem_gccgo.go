@@ -4,6 +4,8 @@
 
 // The gccgo version of mem_*.go.
 
+//go:build !hermit
+
 package runtime
 
 import (

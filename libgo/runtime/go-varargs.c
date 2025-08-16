@@ -39,11 +39,13 @@ __go_fcntl (int fd, int cmd, int arg)
   return fcntl (fd, cmd, arg);
 }
 
+#ifndef __hermit__
 int
 __go_fcntl_flock (int fd, int cmd, struct flock *arg)
 {
   return fcntl (fd, cmd, arg);
 }
+#endif
 
 // This is for the net package.  We use uintptr_t to make sure that
 // the types match, since the Go and C "int" types are not the same.
