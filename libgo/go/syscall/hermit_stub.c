@@ -9,13 +9,6 @@
 
 #define UNUSED(x) (void)(x)
 
-char * getcwd(char *buf, size_t size) {
-    UNUSED(buf);
-    UNUSED(size);
-    return NULL; // Hermit does not support getcwd
-}
-
-
 int utimes(const char *path, const struct timeval times[2]) {
     UNUSED(path);
     UNUSED(times);
@@ -49,13 +42,6 @@ int fchdir(int fildes) {
     UNUSED(fildes);
     errno = ENOSYS; // Hermit does not support fchown
     return -1; 
-}
-
-int fchmod(int fildes, mode_t mode) {
-    UNUSED(fildes);
-    UNUSED(mode);
-    errno = ENOSYS; // Hermit does not support fchmod
-    return -1;
 }
 
 pid_t getppid(void) {
@@ -192,15 +178,6 @@ int mount(const char *type, const char *dir, int flags, void *data) {
     UNUSED(data);
     errno = ENOSYS; // Hermit does not support mount
     return -1;
-}
-
-int truncate(const char *path, off_t length) {
-    UNUSED(path);
-    UNUSED(length);
-    errno = ENOSYS; // Hermit does not support truncate
-    return -1;
-
-
 }
 
 int fdatasync(int fd) {

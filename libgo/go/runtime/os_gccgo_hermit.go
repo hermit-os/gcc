@@ -2,12 +2,12 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build !hermit
+//go:build hermit
 
 package runtime
 
 import (
-	"unsafe"
+	_ "unsafe"
 )
 
 // For C code to call:
@@ -44,7 +44,8 @@ func unminit() {
 func mdestroy(mp *m) {
 }
 
-var urandom_dev = []byte("/dev/urandom\x00")
+//extern sys_rand
+func sys_rand() uint32
 
 func getRandomData(r []byte) {
 	if startupRandomData != nil {
@@ -52,10 +53,20 @@ func getRandomData(r []byte) {
 		extendRandom(r, n)
 		return
 	}
-	fd := open(&urandom_dev[0], 0 /* O_RDONLY */, 0)
-	n := read(fd, unsafe.Pointer(&r[0]), int32(len(r)))
-	closefd(fd)
-	extendRandom(r, int(n))
+	var random = sys_rand()
+	if len(r) > 0 {
+		r[0] = byte(random)
+	}
+	if len(r) > 1 {
+		r[1] = byte(random >> 8)
+	}
+	if len(r) > 2 {
+		r[2] = byte(random >> 16)
+	}
+	if len(r) > 3 {
+		r[3] = byte(random >> 24)
+	}
+	extendRandom(r, 4)
 }
 
 //go:noescape
