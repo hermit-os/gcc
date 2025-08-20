@@ -42,6 +42,11 @@ POSSIBILITY OF SUCH DAMAGE.  */
 #include "backtrace.h"
 #include "internal.h"
 
+#ifdef __hermit__
+int sys_mmap(size_t length, int prot, void** addr);
+int sys_munmap(void* addr, size_t length);
+#endif
+
 #ifndef HAVE_DECL_GETPAGESIZE
 extern int getpagesize (void);
 #endif
@@ -168,8 +173,13 @@ backtrace_alloc (struct backtrace_state *state,
 
       pagesize = getpagesize ();
       asksize = (size + pagesize - 1) & ~ (pagesize - 1);
+#ifdef __hermit__
+      page = NULL;
+      sys_mmap(asksize, PROT_READ | PROT_WRITE, &page);
+#else
       page = mmap (NULL, asksize, PROT_READ | PROT_WRITE,
 		   MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+#endif
       if (page == MAP_FAILED)
 	{
 	  if (error_callback)
@@ -213,8 +223,13 @@ backtrace_free (struct backtrace_state *state, void *addr, size_t size,
 	{
 	  /* If munmap fails for some reason, just add the block to
 	     the freelist.  */
+#ifdef __hermit__
+	  if (sys_munmap(addr, size) == 0)
+	    return;
+#else
 	  if (munmap (addr, size) == 0)
 	    return;
+#endif
 	}
     }
 

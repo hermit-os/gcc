@@ -10,30 +10,24 @@
 #include <sys/mman.h>
 
 #ifdef __hermit__
-#include <stdio.h>
-
 int sys_mmap(size_t length, int prot, void** addr);
 int sys_munmap(void* addr, size_t length);
 int sys_mprotect(void* ptr, size_t length, int prot);
 
 void*
 hmmap(void* addr, size_t length, int prot) {
-  puts("hmmap");
   void* p = addr;
   sys_mmap(length, prot, &p);
-  printf("p %p\n", p);
   return p;
 }
 
 int
 hmunmap(void* addr, size_t length) {
-  printf("munmap %p (length %ld)\n", addr, length);
   return sys_munmap(addr, length);
 }
 
 int
 hmprotect(void* ptr, size_t length, int prot) {
-  printf("mprotect %p (length %ld), prot %d\n", ptr, length, prot);
   return sys_mprotect(ptr, length, prot);
 }
 #else

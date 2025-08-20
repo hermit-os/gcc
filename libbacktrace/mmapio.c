@@ -40,6 +40,12 @@ POSSIBILITY OF SUCH DAMAGE.  */
 #include "backtrace.h"
 #include "internal.h"
 
+#ifdef __hermit__
+int sys_mmap(size_t length, int prot, void** addr);
+int sys_munmap(void* addr, size_t length);
+#define UNUSED(x) (void)(x)
+#endif
+
 #ifndef HAVE_DECL_GETPAGESIZE
 extern int getpagesize (void);
 #endif
@@ -77,7 +83,14 @@ backtrace_get_view (struct backtrace_state *state ATTRIBUTE_UNUSED,
   size += inpage;
   size = (size + (pagesize - 1)) & ~ (pagesize - 1);
 
+#ifdef __hermit__
+  map = NULL;
+  UNUSED(pageoff);
+  UNUSED(descriptor);
+  sys_mmap(size, PROT_READ, &map);
+#else
   map = mmap (NULL, size, PROT_READ, MAP_PRIVATE, descriptor, pageoff);
+#endif
   if (map == MAP_FAILED)
     {
       error_callback (data, "mmap", errno);
@@ -105,6 +118,10 @@ backtrace_release_view (struct backtrace_state *state ATTRIBUTE_UNUSED,
   } const_cast;
 
   const_cast.cv = view->base;
+#ifdef __hermit__
+  if (sys_munmap(const_cast.v, view->len) < 0)
+#else
   if (munmap (const_cast.v, view->len) < 0)
+#endif
     error_callback (data, "munmap", errno);
 }
