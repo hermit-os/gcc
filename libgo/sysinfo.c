@@ -16,7 +16,11 @@
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
+#ifndef __hermit__
 #include <ucontext.h>
+#else
+#include <sys/ucontext.h>
+#endif
 #include <netinet/in.h>
 /* <netinet/tcp.h> needs u_char/u_short, but <sys/bsd_types> is only
    included by <netinet/in.h> if _SGIAPI (i.e. _SGI_SOURCE
@@ -77,7 +81,9 @@
 #include <sys/time.h>
 #include <sys/times.h>
 #include <sys/wait.h>
+#ifndef __hermit__
 #include <sys/un.h>
+#endif
 #if defined(HAVE_SYS_USER_H)
 #include <sys/user.h>
 #endif

@@ -48,6 +48,13 @@ runtime_osyield (void)
 
 /* Sleep for some number of microseconds.  */
 
+#ifdef __hermit__
+void
+runtime_usleep (uint32 us)
+{
+  usleep(us);
+}
+#else
 void
 runtime_usleep (uint32 us)
 {
@@ -57,3 +64,4 @@ runtime_usleep (uint32 us)
   tv.tv_usec = us % 1000000;
   select (0, NULL, NULL, NULL, &tv);
 }
+#endif

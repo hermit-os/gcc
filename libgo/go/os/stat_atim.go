@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-// +build hurd linux openbsd solaristag
+// +build hurd linux openbsd solaristag hermit
 
 package os
 

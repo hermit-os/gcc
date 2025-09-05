@@ -675,6 +675,8 @@ ALLGOOS
 GOOS
 LIBGO_IS_BSD_FALSE
 LIBGO_IS_BSD_TRUE
+LIBGO_IS_HERMIT_FALSE
+LIBGO_IS_HERMIT_TRUE
 LIBGO_IS_HURD_FALSE
 LIBGO_IS_HURD_TRUE
 LIBGO_IS_AIX_FALSE
@@ -11547,7 +11549,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 11550 "configure"
+#line 11552 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -11653,7 +11655,7 @@ else
   lt_dlunknown=0; lt_dlno_uscore=1; lt_dlneed_uscore=2
   lt_status=$lt_dlunknown
   cat > conftest.$ac_ext <<_LT_EOF
-#line 11656 "configure"
+#line 11658 "configure"
 #include "confdefs.h"
 
 #if HAVE_DLFCN_H
@@ -13981,7 +13983,7 @@ go_include="-include"
 # All known GOOS values.  This is the union of all operating systems
 # supported by the gofrontend and all operating systems supported by
 # the gc toolchain.
-ALLGOOS="aix android darwin dragonfly freebsd hurd illumos ios irix js linux netbsd openbsd plan9 rtems solaris windows zos"
+ALLGOOS="aix android darwin dragonfly freebsd hurd hermit illumos ios irix js linux netbsd openbsd plan9 rtems solaris windows zos"
 
 is_darwin=no
 is_freebsd=no
@@ -13994,6 +13996,7 @@ is_rtems=no
 is_solaris=no
 is_aix=no
 is_hurd=no
+is_hermit
 GOOS=unknown
 case ${host} in
   *-*-darwin*)   is_darwin=yes;  GOOS=darwin ;;
@@ -14007,6 +14010,7 @@ case ${host} in
   *-*-solaris2*) is_solaris=yes; GOOS=solaris ;;
   *-*-aix*)      is_aix=yes;     GOOS=aix ;;
   *-*-gnu*)      is_hurd=yes;    GOOS=hurd ;;
+  *-*-hermit*)   is_hermit=yes;  GOOS=hermit ;;
 esac
  if test $is_darwin = yes; then
   LIBGO_IS_DARWIN_TRUE=
@@ -14094,6 +14098,14 @@ fi
 else
   LIBGO_IS_HURD_TRUE='#'
   LIBGO_IS_HURD_FALSE=
+fi
+
+ if test $is_hermit = yes; then
+  LIBGO_IS_HERMIT_TRUE=
+  LIBGO_IS_HERMIT_FALSE='#'
+else
+  LIBGO_IS_HERMIT_TRUE='#'
+  LIBGO_IS_HERMIT_FALSE=
 fi
 
  if test $is_darwin = yes -o $is_dragonfly = yes -o $is_freebsd = yes -o $is_netbsd = yes -o $is_openbsd = yes; then
@@ -14773,7 +14785,7 @@ if ${libgo_cv_lib_pthread+:} false; then :
   $as_echo_n "(cached) " >&6
 else
   CFLAGS_hold=$CFLAGS
-CFLAGS="$CFLAGS -pthread -L../libatomic/.libs"
+CFLAGS="$CFLAGS -pthread"
 cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 int i;
@@ -14791,7 +14803,7 @@ $as_echo "$libgo_cv_lib_pthread" >&6; }
 PTHREAD_CFLAGS=
 if test "$libgo_cv_lib_pthread" = yes; then
   # RISC-V apparently adds -latomic when using -pthread.
-  PTHREAD_CFLAGS="-pthread -L../libatomic/.libs"
+  PTHREAD_CFLAGS="-pthread"
 fi
 
 
@@ -15888,7 +15900,11 @@ else
 
 #include <pthread.h>
 #include <stdlib.h>
+#ifdef __hermit__
+#include <sys/ucontext.h>
+#else
 #include <ucontext.h>
+#endif
 #include <unistd.h>
 
 __thread int tls;
@@ -16458,6 +16474,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${LIBGO_IS_HURD_TRUE}" && test -z "${LIBGO_IS_HURD_FALSE}"; then
   as_fn_error $? "conditional \"LIBGO_IS_HURD\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${LIBGO_IS_HERMIT_TRUE}" && test -z "${LIBGO_IS_HERMIT_FALSE}"; then
+  as_fn_error $? "conditional \"LIBGO_IS_HERMIT\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${LIBGO_IS_BSD_TRUE}" && test -z "${LIBGO_IS_BSD_FALSE}"; then
