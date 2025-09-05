@@ -8,7 +8,11 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/time.h>
+#ifdef __hermit__
+#include <sys/ucontext.h>
+#else
 #include <ucontext.h>
+#endif
 
 #include "runtime.h"
 

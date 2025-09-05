@@ -167,7 +167,7 @@ AC_SUBST(go_include)
 # All known GOOS values.  This is the union of all operating systems
 # supported by the gofrontend and all operating systems supported by
 # the gc toolchain.
-ALLGOOS="aix android darwin dragonfly freebsd hurd illumos ios irix js linux netbsd openbsd plan9 rtems solaris windows zos"
+ALLGOOS="aix android darwin dragonfly freebsd hurd hermit illumos ios irix js linux netbsd openbsd plan9 rtems solaris windows zos"
 
 is_darwin=no
 is_freebsd=no
@@ -180,6 +180,7 @@ is_rtems=no
 is_solaris=no
 is_aix=no
 is_hurd=no
+is_hermit
 GOOS=unknown
 case ${host} in
   *-*-darwin*)   is_darwin=yes;  GOOS=darwin ;;
@@ -193,6 +194,7 @@ case ${host} in
   *-*-solaris2*) is_solaris=yes; GOOS=solaris ;;
   *-*-aix*)      is_aix=yes;     GOOS=aix ;;
   *-*-gnu*)      is_hurd=yes;    GOOS=hurd ;;
+  *-*-hermit*)   is_hermit=yes;  GOOS=hermit ;;
 esac
 AM_CONDITIONAL(LIBGO_IS_DARWIN, test $is_darwin = yes)
 AM_CONDITIONAL(LIBGO_IS_FREEBSD, test $is_freebsd = yes)
@@ -205,6 +207,7 @@ AM_CONDITIONAL(LIBGO_IS_RTEMS, test $is_rtems = yes)
 AM_CONDITIONAL(LIBGO_IS_SOLARIS, test $is_solaris = yes)
 AM_CONDITIONAL(LIBGO_IS_AIX, test $is_aix = yes)
 AM_CONDITIONAL(LIBGO_IS_HURD, test $is_hurd = yes)
+AM_CONDITIONAL(LIBGO_IS_HERMIT, test $is_hermit = yes)
 AM_CONDITIONAL(LIBGO_IS_BSD, test $is_darwin = yes -o $is_dragonfly = yes -o $is_freebsd = yes -o $is_netbsd = yes -o $is_openbsd = yes)
 AC_SUBST(GOOS)
 AC_SUBST(ALLGOOS)
@@ -562,7 +565,7 @@ dnl Test whether the compiler supports the -pthread option.
 AC_CACHE_CHECK([whether -pthread is supported],
 [libgo_cv_lib_pthread],
 [CFLAGS_hold=$CFLAGS
-CFLAGS="$CFLAGS -pthread -L../libatomic/.libs"
+CFLAGS="$CFLAGS -pthread"
 AC_COMPILE_IFELSE([AC_LANG_SOURCE([int i;])],
 [libgo_cv_lib_pthread=yes],
 [libgo_cv_lib_pthread=no])
@@ -570,7 +573,7 @@ CFLAGS=$CFLAGS_hold])
 PTHREAD_CFLAGS=
 if test "$libgo_cv_lib_pthread" = yes; then
   # RISC-V apparently adds -latomic when using -pthread.
-  PTHREAD_CFLAGS="-pthread -L../libatomic/.libs"
+  PTHREAD_CFLAGS="-pthread"
 fi
 AC_SUBST(PTHREAD_CFLAGS)
 
@@ -729,7 +732,11 @@ AC_RUN_IFELSE(
   [AC_LANG_SOURCE([
 #include <pthread.h>
 #include <stdlib.h>
+#ifdef __hermit__
+#include <sys/ucontext.h>
+#else
 #include <ucontext.h>
+#endif
 #include <unistd.h>
 
 __thread int tls;

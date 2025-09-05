@@ -2,7 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-//go:build aix || darwin || dragonfly || freebsd || hurd || openbsd || netbsd || solaris
+//go:build aix || darwin || dragonfly || freebsd || hurd || openbsd || netbsd || solaris || hermit
 // +build aix darwin dragonfly freebsd hurd openbsd netbsd solaris
 
 // General POSIX version of UtimesNano.

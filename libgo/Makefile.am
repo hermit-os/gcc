@@ -443,6 +443,12 @@ else
 rtems_task_variable_add_file =
 endif
 
+if LIBGO_IS_HERMIT
+runtime_signal_file =
+else
+runtime_signal_file = runtime/go-signal
+endif
+
 runtime_context_asm_file =
 if LIBGO_IS_X86
 if LIBGO_IS_LINUX
@@ -470,7 +476,6 @@ runtime_files = \
 	runtime/go-strerror.c \
 	runtime/go-reflect-call.c \
 	runtime/go-setenv.c \
-	runtime/go-signal.c \
 	runtime/go-unsafe-pointer.c \
 	runtime/go-unsetenv.c \
 	runtime/go-unwind.c \
@@ -482,6 +487,7 @@ runtime_files = \
 	runtime/runtime_c.c \
 	runtime/stack.c \
 	runtime/yield.c \
+	$(runtime_signal_file) \
 	$(runtime_context_asm_file) \
 	$(rtems_task_variable_add_file)
 
@@ -825,6 +831,7 @@ libgo_go_objs = \
 	syscall/errno.lo \
 	syscall/signame.lo \
 	syscall/wait.lo \
+	syscall/hermit_stub.lo \
 	runtime/internal/syscall/errno.lo \
 	os/dir_gccgo_c.lo \
 	$(golangorg_x_net_lif_lo) \
@@ -1041,8 +1048,13 @@ math_lo_GOCFLAGS = $(MATH_FLAG)
 math_check_GOCFLAGS = $(MATH_FLAG)
 
 # Add generated files to the runtime package.
+if LIBGO_IS_HERMIT
+extra_go_files_runtime = \
+	runtime_linknames.go runtime_sysinfo.go goroot.go
+else
 extra_go_files_runtime = \
 	runtime_linknames.go runtime_sysinfo.go sigtab.go goroot.go
+endif
 runtime.lo.dep: $(extra_go_files_runtime)
 
 # Add generated files to the syscall package.
@@ -1188,6 +1200,9 @@ syscall/signame.lo: go/syscall/signame.c runtime.inc
 syscall/wait.lo: go/syscall/wait.c runtime.inc
 	@$(MKDIR_P) syscall
 	$(LTCOMPILE) -c -o $@ $(srcdir)/go/syscall/wait.c
+syscall/hermit_stub.lo: go/syscall/hermit_stub.c runtime.inc
+	@$(MKDIR_P) syscall
+	$(LTCOMPILE) -c -o $@ $(srcdir)/go/syscall/hermit_stub.c
 
 # Some runtime/internal/syscall functions are written in C.
 runtime/internal/syscall/errno.lo: go/runtime/internal/syscall/errno.c runtime.inc

@@ -225,23 +225,25 @@ LTLIBRARIES = $(toolexeclib_LTLIBRARIES)
 am__DEPENDENCIES_3 = $(addsuffix .lo,$(PACKAGES)) \
 	internal/bytealg/bytealg.lo reflect/makefunc_ffi_c.lo \
 	$(am__DEPENDENCIES_1) syscall/errno.lo syscall/signame.lo \
-	syscall/wait.lo runtime/internal/syscall/errno.lo \
-	os/dir_gccgo_c.lo $(golangorg_x_net_lif_lo) \
-	$(golangorg_x_net_route_lo) log/syslog/syslog_c.lo \
-	runtime/internal/atomic_c.lo sync/atomic_c.lo \
-	internal/cpu/cpu_gccgo.lo $(am__DEPENDENCIES_2)
+	syscall/wait.lo syscall/hermit_stub.lo \
+	runtime/internal/syscall/errno.lo os/dir_gccgo_c.lo \
+	$(golangorg_x_net_lif_lo) $(golangorg_x_net_route_lo) \
+	log/syslog/syslog_c.lo runtime/internal/atomic_c.lo \
+	sync/atomic_c.lo internal/cpu/cpu_gccgo.lo \
+	$(am__DEPENDENCIES_2)
 am__DEPENDENCIES_4 =
 am__DEPENDENCIES_5 = $(am__DEPENDENCIES_3) \
 	../libbacktrace/libbacktrace.la $(am__DEPENDENCIES_4) \
 	$(am__DEPENDENCIES_4) $(am__DEPENDENCIES_4) \
 	$(am__DEPENDENCIES_4) $(am__DEPENDENCIES_4)
 libgo_llgo_la_DEPENDENCIES = $(am__DEPENDENCIES_5)
-@LIBGO_IS_LINUX_TRUE@@LIBGO_IS_X86_TRUE@am__objects_1 =  \
+am__objects_1 =
+@LIBGO_IS_LINUX_TRUE@@LIBGO_IS_X86_TRUE@am__objects_2 =  \
 @LIBGO_IS_LINUX_TRUE@@LIBGO_IS_X86_TRUE@	runtime/go-context.lo
-am__objects_2 = $(am__objects_1)
-@LIBGO_IS_RTEMS_TRUE@am__objects_3 =  \
+am__objects_3 = $(am__objects_2)
+@LIBGO_IS_RTEMS_TRUE@am__objects_4 =  \
 @LIBGO_IS_RTEMS_TRUE@	runtime/rtems-task-variable-add.lo
-am__objects_4 = runtime/aeshash.lo runtime/go-assert.lo \
+am__objects_5 = runtime/aeshash.lo runtime/go-assert.lo \
 	runtime/go-caller.lo runtime/go-callers.lo runtime/go-cgo.lo \
 	runtime/go-construct-map.lo runtime/go-ffi.lo \
 	runtime/go-fieldtrack.lo runtime/go-matherr.lo \
@@ -249,13 +251,13 @@ am__objects_4 = runtime/aeshash.lo runtime/go-assert.lo \
 	runtime/go-memequal.lo runtime/go-mmap.lo \
 	runtime/go-nanotime.lo runtime/go-now.lo runtime/go-nosys.lo \
 	runtime/go-strerror.lo runtime/go-reflect-call.lo \
-	runtime/go-setenv.lo runtime/go-signal.lo \
-	runtime/go-unsafe-pointer.lo runtime/go-unsetenv.lo \
-	runtime/go-unwind.lo runtime/go-varargs.lo \
-	runtime/env_posix.lo runtime/panic.lo runtime/print.lo \
-	runtime/proc.lo runtime/runtime_c.lo runtime/stack.lo \
-	runtime/yield.lo $(am__objects_2) $(am__objects_3)
-am_libgo_llgo_la_OBJECTS = $(am__objects_4)
+	runtime/go-setenv.lo runtime/go-unsafe-pointer.lo \
+	runtime/go-unsetenv.lo runtime/go-unwind.lo \
+	runtime/go-varargs.lo runtime/env_posix.lo runtime/panic.lo \
+	runtime/print.lo runtime/proc.lo runtime/runtime_c.lo \
+	runtime/stack.lo runtime/yield.lo $(am__objects_1) \
+	$(am__objects_3) $(am__objects_4)
+am_libgo_llgo_la_OBJECTS = $(am__objects_5)
 libgo_llgo_la_OBJECTS = $(am_libgo_llgo_la_OBJECTS)
 AM_V_lt = $(am__v_lt_@AM_V@)
 am__v_lt_ = $(am__v_lt_@AM_DEFAULT_V@)
@@ -266,7 +268,7 @@ libgo_llgo_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(libgo_llgo_la_LDFLAGS) $(LDFLAGS) -o $@
 @GOC_IS_LLGO_TRUE@am_libgo_llgo_la_rpath = -rpath $(toolexeclibdir)
 libgo_la_DEPENDENCIES = $(am__DEPENDENCIES_5)
-am_libgo_la_OBJECTS = $(am__objects_4)
+am_libgo_la_OBJECTS = $(am__objects_5)
 libgo_la_OBJECTS = $(am_libgo_la_OBJECTS)
 libgo_la_LINK = $(LIBTOOL) $(AM_V_lt) --tag=CC $(AM_LIBTOOLFLAGS) \
 	$(LIBTOOLFLAGS) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
@@ -902,6 +904,8 @@ noinst_DATA = golang.org/x/net/nettest.gox internal/cfg.gox \
 	reflect/internal/example2.gox zdefaultcc.go
 @LIBGO_IS_RTEMS_FALSE@rtems_task_variable_add_file = 
 @LIBGO_IS_RTEMS_TRUE@rtems_task_variable_add_file = runtime/rtems-task-variable-add.c
+@LIBGO_IS_HERMIT_FALSE@runtime_signal_file = runtime/go-signal
+@LIBGO_IS_HERMIT_TRUE@runtime_signal_file = 
 runtime_context_asm_file = $(am__append_3)
 runtime_files = \
 	runtime/aeshash.c \
@@ -923,7 +927,6 @@ runtime_files = \
 	runtime/go-strerror.c \
 	runtime/go-reflect-call.c \
 	runtime/go-setenv.c \
-	runtime/go-signal.c \
 	runtime/go-unsafe-pointer.c \
 	runtime/go-unsetenv.c \
 	runtime/go-unwind.c \
@@ -935,6 +938,7 @@ runtime_files = \
 	runtime/runtime_c.c \
 	runtime/stack.c \
 	runtime/yield.c \
+	$(runtime_signal_file) \
 	$(runtime_context_asm_file) \
 	$(rtems_task_variable_add_file)
 
@@ -960,6 +964,7 @@ libgo_go_objs = \
 	syscall/errno.lo \
 	syscall/signame.lo \
 	syscall/wait.lo \
+	syscall/hermit_stub.lo \
 	runtime/internal/syscall/errno.lo \
 	os/dir_gccgo_c.lo \
 	$(golangorg_x_net_lif_lo) \
@@ -1104,10 +1109,13 @@ CHECK_DEPS = $(toolexeclibgo_DATA) $(toolexeclibgoarchive_DATA) \
 # math package.  MATH_FLAG is defined in configure.ac.
 math_lo_GOCFLAGS = $(MATH_FLAG)
 math_check_GOCFLAGS = $(MATH_FLAG)
+@LIBGO_IS_HERMIT_FALSE@extra_go_files_runtime = \
+@LIBGO_IS_HERMIT_FALSE@	runtime_linknames.go runtime_sysinfo.go sigtab.go goroot.go
+
 
 # Add generated files to the runtime package.
-extra_go_files_runtime = \
-	runtime_linknames.go runtime_sysinfo.go sigtab.go goroot.go
+@LIBGO_IS_HERMIT_TRUE@extra_go_files_runtime = \
+@LIBGO_IS_HERMIT_TRUE@	runtime_linknames.go runtime_sysinfo.go goroot.go
 
 
 # Add generated files to the syscall package.
@@ -1402,8 +1410,6 @@ runtime/go-reflect-call.lo: runtime/$(am__dirstamp) \
 	runtime/$(DEPDIR)/$(am__dirstamp)
 runtime/go-setenv.lo: runtime/$(am__dirstamp) \
 	runtime/$(DEPDIR)/$(am__dirstamp)
-runtime/go-signal.lo: runtime/$(am__dirstamp) \
-	runtime/$(DEPDIR)/$(am__dirstamp)
 runtime/go-unsafe-pointer.lo: runtime/$(am__dirstamp) \
 	runtime/$(DEPDIR)/$(am__dirstamp)
 runtime/go-unsetenv.lo: runtime/$(am__dirstamp) \
@@ -1465,7 +1471,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@runtime/$(DEPDIR)/go-now.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@runtime/$(DEPDIR)/go-reflect-call.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@runtime/$(DEPDIR)/go-setenv.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@runtime/$(DEPDIR)/go-signal.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@runtime/$(DEPDIR)/go-strerror.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@runtime/$(DEPDIR)/go-unsafe-pointer.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@runtime/$(DEPDIR)/go-unsetenv.Plo@am__quote@
@@ -3107,6 +3112,9 @@ syscall/signame.lo: go/syscall/signame.c runtime.inc
 syscall/wait.lo: go/syscall/wait.c runtime.inc
 	@$(MKDIR_P) syscall
 	$(LTCOMPILE) -c -o $@ $(srcdir)/go/syscall/wait.c
+syscall/hermit_stub.lo: go/syscall/hermit_stub.c runtime.inc
+	@$(MKDIR_P) syscall
+	$(LTCOMPILE) -c -o $@ $(srcdir)/go/syscall/hermit_stub.c
 
 # Some runtime/internal/syscall functions are written in C.
 runtime/internal/syscall/errno.lo: go/runtime/internal/syscall/errno.c runtime.inc

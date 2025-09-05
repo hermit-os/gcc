@@ -4,6 +4,22 @@
    Use of this source code is governed by a BSD-style
    license that can be found in the LICENSE file.  */
 
+#ifdef __hermit__
+
+#include <stdio.h>
+
+#include "runtime.h"
+
+#define UNUSED(x) (void)(x)
+
+void syslog_c (intgo priority, const char* msg)
+{
+	UNUSED(priority);
+
+	fprintf(stderr, msg);
+}
+#else
+
 #include <syslog.h>
 
 #include "runtime.h"
@@ -19,3 +35,4 @@ syslog_c (intgo priority, const char *msg)
 {
   syslog (priority, "%s", msg);
 }
+#endif

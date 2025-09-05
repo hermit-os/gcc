@@ -35,7 +35,6 @@ grep -v '^// ' gen-sysinfo.go | \
   grep -v '^type _timespec ' | \
   grep -v '^type _timestruc_t ' | \
   grep -v '^type _epoll_' | \
-  grep -v '^type _*locale[_ ]' | \
   grep -v '^type _in6_addr' | \
   grep -v 'sockaddr_in6' | \
   egrep -v '^const _*FLT(64|128)_(NORM_)?MAX' | \
@@ -638,18 +637,20 @@ echo $msghdr | \
 grep '^const _MSG_' gen-sysinfo.go | \
   sed -e 's/^\(const \)_\(MSG_[^= ]*\)\(.*\)$/\1\2 = _\2/' >> ${OUT}
 
-# The cmsghdr struct.
-cmsghdr=`grep '^type _cmsghdr ' gen-sysinfo.go`
-if test -n "$cmsghdr"; then
-  cmsghdr_len=`echo $cmsghdr | sed -n -e 's/^.*cmsg_len \([^ ]*\);.*$/\1/p'`
-  echo "type Cmsghdr_len_t $cmsghdr_len" >> ${OUT}
-  echo "$cmsghdr" | \
-      sed -e 's/_cmsghdr/Cmsghdr/' \
-        -e 's/cmsg_len *[a-zA-Z0-9_]*/Len Cmsghdr_len_t/' \
-        -e 's/cmsg_level/Level/' \
-        -e 's/cmsg_type/Type/' \
-        -e 's/\[\]/[0]/' \
-      >> ${OUT}
+if test "${GOOS}" != "hermit"; then
+  # The cmsghdr struct.
+  cmsghdr=`grep '^type _cmsghdr ' gen-sysinfo.go`
+  if test -n "$cmsghdr"; then
+    cmsghdr_len=`echo $cmsghdr | sed -n -e 's/^.*cmsg_len \([^ ]*\);.*$/\1/p'`
+    echo "type Cmsghdr_len_t $cmsghdr_len" >> ${OUT}
+    echo "$cmsghdr" | \
+        sed -e 's/_cmsghdr/Cmsghdr/' \
+          -e 's/cmsg_len *[a-zA-Z0-9_]*/Len Cmsghdr_len_t/' \
+          -e 's/cmsg_level/Level/' \
+          -e 's/cmsg_type/Type/' \
+          -e 's/\[\]/[0]/' \
+        >> ${OUT}
+  fi
 fi
 
 # The SCM_ flags for Cmsghdr.
@@ -1258,6 +1259,7 @@ grep '^const _MNT_' gen-sysinfo.go |
 grep '^const _MS_' gen-sysinfo.go |
     sed -e 's/^\(const \)_\(MS_[^= ]*\)\(.*\)$/\1\2 = _\2/' >> ${OUT}
 
+echo "END5"
 # The fallocate flags.
 grep '^const _FALLOC_' gen-sysinfo.go |
     sed -e 's/^\(const \)_\(FALLOC_[^= ]*\)\(.*\)$/\1\2 = _\2/' >> ${OUT}
