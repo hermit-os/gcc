@@ -28648,6 +28648,8 @@ rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
       *-hermit*)
         $as_echo "#define HAVE_ALIGNED_ALLOC 1" >>confdefs.h
 
+        $as_echo "#define HAVE_TLS 1" >>confdefs.h
+
         ;;
     esac
   elif test "x$with_headers" != "xno"; then

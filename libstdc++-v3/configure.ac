@@ -418,6 +418,7 @@ dnl # rather than hardcoding that information.
         ;;
       *-hermit*)
         AC_DEFINE(HAVE_ALIGNED_ALLOC)
+        AC_DEFINE(HAVE_TLS)
         ;;
     esac
   elif test "x$with_headers" != "xno"; then
