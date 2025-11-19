@@ -416,6 +416,9 @@ dnl # rather than hardcoding that information.
         glibcxx_cv_chmod=yes
         glibcxx_cv_mkdir=yes
         ;;
+      *-hermit*)
+        AC_DEFINE(HAVE_ALIGNED_ALLOC)
+        ;;
     esac
   elif test "x$with_headers" != "xno"; then
     GLIBCXX_CROSSCONFIG
